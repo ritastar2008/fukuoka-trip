@@ -55,6 +55,11 @@ import {
 // --- Firebase 導入 ---
 import { initializeApp } from "firebase/app";
 import {
+  getAuth,
+  signInAnonymously,
+  onAuthStateChanged
+} from "firebase/auth";
+import {
   getFirestore,
   collection,
   addDoc,
@@ -67,9 +72,14 @@ import {
 } from "firebase/firestore";
 
 // =================================================================
-// ⚠️⚠️⚠️ 請將下方這裡替換成您自己的 Firebase Config ⚠️⚠️⚠️
+// ⚠️ Firebase 設定
 // =================================================================
-const firebaseConfig = {
+// 嘗試使用環境變數（預覽環境用），若無則使用您提供的 Config（正式環境用）
+const envConfig = typeof window !== 'undefined' && (window as any).__firebase_config 
+  ? JSON.parse((window as any).__firebase_config) 
+  : null;
+
+const firebaseConfig = envConfig || {
   apiKey: "AIzaSyAaH9RHb9lqZ7s5FwKvPuE4tyV5-wnysEs",
   authDomain: "family-trip-29416.firebaseapp.com",
   projectId: "family-trip-29416",
@@ -79,16 +89,19 @@ const firebaseConfig = {
 };
 
 // 初始化 Firebase
-// 注意：如果這個環境有提供預設 config，我們這裡強制使用您提供的 config
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getFirestore(app);
+
+// 定義共用 App ID，確保所有人連到同一個資料區塊
+const appId = typeof window !== 'undefined' && (window as any).__app_id ? (window as any).__app_id : 'fukuoka-trip-shared';
 
 // --- 設定 ---
 const EXCHANGE_RATE = 0.22; // 日幣匯率設定
 
 // --- 工具函式 ---
-const getGoogleDriveImage = (url) => {
-  if (!url) return null;
+const getGoogleDriveImage = (url: string) => {
+  if (!url) return undefined;
   if (url.includes("drive.google.com") || url.includes("docs.google.com")) {
     const idMatch = url.match(/[-\w]{25,}/);
     if (idMatch) {
@@ -98,7 +111,7 @@ const getGoogleDriveImage = (url) => {
   return url;
 };
 
-const openGoogleMap = (query) => {
+const openGoogleMap = (query: string) => {
   window.open(
     `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       query
@@ -108,7 +121,7 @@ const openGoogleMap = (query) => {
 };
 
 // 圖示渲染函式
-const renderWeatherIcon = (iconName) => {
+const renderWeatherIcon = (iconName: string) => {
   switch (iconName) {
     case "Sun":
       return <Sun className="text-orange-400" size={20} />;
@@ -735,7 +748,7 @@ const TOOLS_INFO = {
 
 // --- UI 元件 ---
 
-const TabButton = ({ active, icon, label, onClick }) => (
+const TabButton = ({ active, icon, label, onClick }: any) => (
   <button
     onClick={onClick}
     className={`flex flex-col items-center justify-center w-full py-3 transition-all duration-300 ${
@@ -747,8 +760,8 @@ const TabButton = ({ active, icon, label, onClick }) => (
   </button>
 );
 
-const CategoryIcon = ({ type }) => {
-  const styles = {
+const CategoryIcon = ({ type }: { type: string }) => {
+  const styles: any = {
     transport: "bg-blue-100 text-blue-600",
     hotel: "bg-purple-100 text-purple-600",
     food: "bg-orange-100 text-orange-600",
@@ -756,7 +769,7 @@ const CategoryIcon = ({ type }) => {
     shop: "bg-pink-100 text-pink-600",
   };
 
-  const icons = {
+  const icons: any = {
     transport: <Train size={18} />,
     hotel: <Home size={18} />,
     food: <Coffee size={18} />,
@@ -775,7 +788,7 @@ const CategoryIcon = ({ type }) => {
   );
 };
 
-const PhraseModal = ({ phrase, onClose }) => {
+const PhraseModal = ({ phrase, onClose }: any) => {
   if (!phrase) return null;
 
   return (
@@ -814,7 +827,7 @@ const PhraseModal = ({ phrase, onClose }) => {
   );
 };
 
-const ImagePreviewModal = ({ src, onClose }) => {
+const ImagePreviewModal = ({ src, onClose }: any) => {
   if (!src) return null;
   const displaySrc = getGoogleDriveImage(src);
 
@@ -839,7 +852,7 @@ const ImagePreviewModal = ({ src, onClose }) => {
   );
 };
 
-const PhraseCategory = ({ category, onPhraseClick }) => {
+const PhraseCategory = ({ category, onPhraseClick }: any) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -860,7 +873,7 @@ const PhraseCategory = ({ category, onPhraseClick }) => {
 
       {isOpen && (
         <div className="divide-y divide-slate-100">
-          {category.phrases.map((p, idx) => (
+          {category.phrases.map((p: any, idx: number) => (
             <div
               key={idx}
               onClick={() => onPhraseClick(p)}
@@ -898,14 +911,14 @@ const ShoppingListItems = ({
   onEdit,
   setPreviewImage,
   catId,
-}) => (
+}: any) => (
   <div className="space-y-3 mb-4">
     {items.length === 0 && (
       <p className="text-xs text-slate-400 text-center py-4 italic">
         尚無必買項目，請新增
       </p>
     )}
-    {items.map((item) => (
+    {items.map((item: any) => (
       <div
         key={item.id}
         className="flex gap-3 p-3 bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-md transition-shadow"
@@ -998,7 +1011,7 @@ const ShoppingInputForm = ({
   onAddShopping,
   isEditing,
   onCancel,
-}) => (
+}: any) => (
   <div
     className={`bg-white p-3 rounded-xl border shadow-sm space-y-2 ${
       isEditing ? "border-orange-200 bg-orange-50" : "border-blue-100"
@@ -1092,7 +1105,7 @@ const StandardChecklistItems = ({
   onDelete,
   onEdit,
   catId,
-}) => (
+}: any) => (
   <div className="p-2">
     {items.length === 0 ? (
       <p className="text-xs text-slate-400 text-center py-4 italic">
@@ -1100,7 +1113,7 @@ const StandardChecklistItems = ({
       </p>
     ) : (
       <ul className="space-y-1 mb-2">
-        {items.map((item) => (
+        {items.map((item: any) => (
           <li
             key={item.id}
             className="group flex items-center gap-3 p-2 hover:bg-slate-50 rounded-lg transition-colors"
@@ -1149,7 +1162,7 @@ const StandardInputForm = ({
   onAdd,
   isEditing,
   onCancel,
-}) => (
+}: any) => (
   <div
     className={`flex gap-2 p-2 pt-0 mt-2 ${
       isEditing ? "bg-orange-50 rounded-lg p-2" : ""
@@ -1199,7 +1212,7 @@ const ChecklistGroup = ({
   setShoppingInput,
   onAddShopping,
   setPreviewImage,
-}) => {
+}: any) => {
   const [isOpen, setIsOpen] = useState(false);
   const isShopping =
     cat.id === "shopping" ||
@@ -1207,7 +1220,7 @@ const ChecklistGroup = ({
     cat.id === "shopping_baby";
 
   // 檢查此分類下是否有正在編輯的項目
-  const isEditingThisCat = items.some((item) => item.id === editingId);
+  const isEditingThisCat = items.some((item: any) => item.id === editingId);
 
   // 如果正在編輯此分類的項目，自動展開
   useEffect(() => {
@@ -1232,7 +1245,7 @@ const ChecklistGroup = ({
           </div>
           <h2 className="font-bold text-slate-800">{cat.title}</h2>
           <span className="text-xs bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full ml-2">
-            {items.filter((i) => i.checked).length}/{items.length}
+            {items.filter((i: any) => i.checked).length}/{items.length}
           </span>
         </div>
         {isOpen ? (
@@ -1286,10 +1299,10 @@ const ChecklistGroup = ({
 // --- Pocket List View ---
 
 const PocketListView = () => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<any[]>([]);
   const [activeFilter, setActiveFilter] = useState("food"); // food, spot, shop
   const [isExpanded, setIsExpanded] = useState(false);
-  const [editingId, setEditingId] = useState(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   // Form State
   const [name, setName] = useState("");
@@ -1306,9 +1319,9 @@ const PocketListView = () => {
     { id: "shop", label: "逛街", icon: <ShoppingBag size={16} /> },
   ];
 
-  // Sync from Firebase
+  // Sync from Firebase (SHARED DATA)
   useEffect(() => {
-    const q = query(collection(db, "pocket_items"));
+    const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'pocket_items'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const newItems = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -1328,7 +1341,7 @@ const PocketListView = () => {
       );
   }, [items, activeFilter]);
 
-  const startEditing = (item) => {
+  const startEditing = (item: any) => {
     setEditingId(item.id);
     setName(item.name);
     setHours(item.hours || "");
@@ -1360,7 +1373,7 @@ const PocketListView = () => {
 
     if (editingId) {
       // Update existing item
-      const itemRef = doc(db, "pocket_items", editingId);
+      const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'pocket_items', editingId);
       await updateDoc(itemRef, {
         name,
         hours,
@@ -1373,7 +1386,7 @@ const PocketListView = () => {
       setEditingId(null);
     } else {
       // Add new item
-      await addDoc(collection(db, "pocket_items"), {
+      await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'pocket_items'), {
         type: activeFilter,
         name,
         hours,
@@ -1397,18 +1410,18 @@ const PocketListView = () => {
     setIsExpanded(false);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm("確定要刪除這個口袋名單嗎？")) {
-      await deleteDoc(doc(db, "pocket_items", id));
+      await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'pocket_items', id));
     }
   };
 
-  const toggleImageVisibility = async (id, currentStatus) => {
-    const itemRef = doc(db, "pocket_items", id);
+  const toggleImageVisibility = async (id: string, currentStatus: boolean) => {
+    const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'pocket_items', id);
     await updateDoc(itemRef, { showImage: !currentStatus });
   };
 
-  const searchGoogleImages = (query) => {
+  const searchGoogleImages = (query: string) => {
     window.open(
       `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(query)}`,
       "_blank"
@@ -1586,7 +1599,7 @@ const PocketListView = () => {
           <div className="text-center text-slate-400 py-10 flex flex-col items-center">
             <ClipboardList size={48} className="mb-2 opacity-20" />
             <p>
-              目前沒有{filters.find((f) => f.id === activeFilter).label}名單
+              目前沒有{filters.find((f) => f.id === activeFilter)?.label}名單
             </p>
           </div>
         ) : (
@@ -1640,7 +1653,7 @@ const PocketListView = () => {
                       src={item.image}
                       alt={item.name}
                       className="w-full h-40 object-cover rounded-lg"
-                      onError={(e) => (e.target.style.display = "none")}
+                      onError={(e: any) => (e.target.style.display = "none")}
                     />
                   )}
                   <button
@@ -1691,9 +1704,9 @@ const PocketListView = () => {
 // --- Weather Forecast Component ---
 
 const WeatherForecast = () => {
-  const [forecast, setForecast] = useState([]);
+  const [forecast, setForecast] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchWeather = async () => {
@@ -1708,7 +1721,7 @@ const WeatherForecast = () => {
         const data = await res.json();
         const daily = data.daily;
 
-        const formattedData = daily.time.map((time, index) => ({
+        const formattedData = daily.time.map((time: any, index: number) => ({
           date: time,
           code: daily.weather_code[index],
           max: Math.round(daily.temperature_2m_max[index]),
@@ -1728,7 +1741,7 @@ const WeatherForecast = () => {
   }, []);
 
   // Helper to get weather icon from WMO code
-  const getWeatherIcon = (code) => {
+  const getWeatherIcon = (code: number) => {
     // 0: Clear sky
     if (code === 0) return <Sun className="text-orange-500" size={24} />;
     // 1, 2, 3: Mainly clear, partly cloudy, and overcast
@@ -1746,7 +1759,7 @@ const WeatherForecast = () => {
   };
 
   // Helper to format date (YYYY-MM-DD -> MM/DD)
-  const formatDate = (dateStr) => {
+  const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
     return `${date.getMonth() + 1}/${date.getDate()}`;
   };
@@ -1803,14 +1816,15 @@ const WeatherForecast = () => {
 
 // --- Preparation View ---
 const PreparationView = () => {
-  const [items, setItems] = useState([]);
-  const [inputStates, setInputStates] = useState({});
-  const [shoppingInputStates, setShoppingInputStates] = useState({});
-  const [previewImage, setPreviewImage] = useState(null);
-  const [editingId, setEditingId] = useState(null);
+  const [items, setItems] = useState<any[]>([]);
+  const [inputStates, setInputStates] = useState<any>({});
+  const [shoppingInputStates, setShoppingInputStates] = useState<any>({});
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
+  // SHARED DATA: checklist_items
   useEffect(() => {
-    const q = query(collection(db, "checklist_items"));
+    const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'checklist_items'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const newItems = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -1845,19 +1859,19 @@ const PreparationView = () => {
     },
   ];
 
-  const toggleItem = async (itemId, currentStatus) => {
-    const itemRef = doc(db, "checklist_items", itemId);
+  const toggleItem = async (itemId: string, currentStatus: boolean) => {
+    const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'checklist_items', itemId);
     await updateDoc(itemRef, { checked: !currentStatus });
   };
 
-  const deleteItem = async (itemId) => {
-    await deleteDoc(doc(db, "checklist_items", itemId));
+  const deleteItem = async (itemId: string) => {
+    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'checklist_items', itemId));
   };
 
-  const startEditing = (catId, item) => {
+  const startEditing = (catId: string, item: any) => {
     setEditingId(item.id);
     if (catId.startsWith("shopping")) {
-      setShoppingInputStates((prev) => ({
+      setShoppingInputStates((prev: any) => ({
         ...prev,
         [catId]: {
           text: item.text,
@@ -1867,7 +1881,7 @@ const PreparationView = () => {
         },
       }));
     } else {
-      setInputStates((prev) => ({
+      setInputStates((prev: any) => ({
         ...prev,
         [catId]: item.text,
       }));
@@ -1880,30 +1894,30 @@ const PreparationView = () => {
     setShoppingInputStates({});
   };
 
-  const addItem = async (catId) => {
+  const addItem = async (catId: string) => {
     const text = inputStates[catId]?.trim();
     if (!text) return;
 
     if (editingId) {
-      const itemRef = doc(db, "checklist_items", editingId);
+      const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'checklist_items', editingId);
       await updateDoc(itemRef, { text });
       setEditingId(null);
     } else {
-      await addDoc(collection(db, "checklist_items"), {
+      await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'checklist_items'), {
         catId,
         text,
         checked: false,
       });
     }
-    setInputStates((prev) => ({ ...prev, [catId]: "" }));
+    setInputStates((prev: any) => ({ ...prev, [catId]: "" }));
   };
 
-  const addShoppingItem = async (catId) => {
+  const addShoppingItem = async (catId: string) => {
     const input = shoppingInputStates[catId];
     if (!input || !input.text.trim()) return;
 
     if (editingId) {
-      const itemRef = doc(db, "checklist_items", editingId);
+      const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'checklist_items', editingId);
       await updateDoc(itemRef, {
         text: input.text,
         location: input.location,
@@ -1912,7 +1926,7 @@ const PreparationView = () => {
       });
       setEditingId(null);
     } else {
-      await addDoc(collection(db, "checklist_items"), {
+      await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'checklist_items'), {
         catId,
         text: input.text,
         location: input.location,
@@ -1921,7 +1935,7 @@ const PreparationView = () => {
         checked: false,
       });
     }
-    setShoppingInputStates((prev) => ({
+    setShoppingInputStates((prev: any) => ({
       ...prev,
       [catId]: { text: "", location: "", image: "", priority: "高" },
     }));
@@ -1958,7 +1972,7 @@ const PreparationView = () => {
             cat={cat}
             items={sortedItems}
             inputValue={inputStates[cat.id]}
-            onInputChange={(e) =>
+            onInputChange={(e: any) =>
               setInputStates({ ...inputStates, [cat.id]: e.target.value })
             }
             onAdd={addItem}
@@ -1970,8 +1984,8 @@ const PreparationView = () => {
             shoppingInput={
               cat.id.startsWith("shopping") ? shoppingInputStates[cat.id] : null
             }
-            setShoppingInput={(newState) =>
-              setShoppingInputStates((prev) => ({
+            setShoppingInput={(newState: any) =>
+              setShoppingInputStates((prev: any) => ({
                 ...prev,
                 [cat.id]: { ...prev[cat.id], ...newState },
               }))
@@ -1992,7 +2006,7 @@ const ActivityItem = ({
   totalItems,
   expandedAlternatives,
   toggleAlternative,
-}) => (
+}: any) => (
   <div key={idx} className="flex gap-4 relative">
     {idx !== totalItems - 1 && (
       <div className="absolute left-[19px] top-12 bottom-[-24px] w-[2px] bg-slate-100"></div>
@@ -2057,7 +2071,7 @@ const ActivityItem = ({
 
           {expandedAlternatives[idx] && (
             <div className="mt-2 space-y-2 pl-2 border-l-2 border-purple-100">
-              {item.alternatives.map((alt, altIdx) => (
+              {item.alternatives.map((alt: any, altIdx: number) => (
                 <div key={altIdx} className="bg-purple-50/50 p-2 rounded-lg">
                   <div className="flex justify-between items-start mb-1">
                     <div className="flex items-center gap-1.5">
@@ -2099,12 +2113,12 @@ const ActivityItem = ({
   </div>
 );
 
-const ItineraryView = ({ selectedDay, setSelectedDay }) => {
-  const dayData = ITINERARY.find((d) => d.day === selectedDay);
-  const [expandedAlternatives, setExpandedAlternatives] = useState({});
+const ItineraryView = ({ selectedDay, setSelectedDay }: any) => {
+  const dayData = ITINERARY.find((d) => d.day === selectedDay) || ITINERARY[0];
+  const [expandedAlternatives, setExpandedAlternatives] = useState<any>({});
 
-  const toggleAlternative = (index) => {
-    setExpandedAlternatives((prev) => ({
+  const toggleAlternative = (index: number) => {
+    setExpandedAlternatives((prev: any) => ({
       ...prev,
       [index]: !prev[index],
     }));
@@ -2142,17 +2156,7 @@ const ItineraryView = ({ selectedDay, setSelectedDay }) => {
               </h2>
               <p className="text-sm text-slate-500">{dayData.date}</p>
             </div>
-            {dayData.weather && (
-              <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg shadow-sm">
-                {renderWeatherIcon(dayData.weather.iconName)}
-                <span className="font-semibold text-slate-700">
-                  {dayData.weather.temp}
-                </span>
-                <span className="text-xs text-slate-500">
-                  {dayData.weather.status}
-                </span>
-              </div>
-            )}
+            {/* Weather removed from header as it's in Tools now, or we can add back if desired */}
           </div>
         </div>
       </div>
@@ -2216,6 +2220,7 @@ const ToolsView = () => {
                   {type === "outbound" ? "去程" : "回程"}
                 </span>
                 <span className="text-xs text-slate-400">
+                  {/* @ts-ignore */}
                   {TRIP_INFO.flight[type].duration}
                 </span>
               </div>
@@ -2223,9 +2228,11 @@ const ToolsView = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <div className="text-2xl font-mono font-bold text-slate-800 mb-1">
+                    {/* @ts-ignore */}
                     {TRIP_INFO.flight[type].code}
                   </div>
                   <div className="text-xs text-slate-500">
+                    {/* @ts-ignore */}
                     {TRIP_INFO.flight[type].airline}
                   </div>
                 </div>
@@ -2233,16 +2240,20 @@ const ToolsView = () => {
                 <div className="flex flex-col gap-2 text-right">
                   <div>
                     <div className="text-base font-bold text-slate-800">
+                      {/* @ts-ignore */}
                       {TRIP_INFO.flight[type].dep.split(" ")[0]}{" "}
                       <span className="text-xs font-normal text-slate-500">
+                        {/* @ts-ignore */}
                         {TRIP_INFO.flight[type].dep.split(" ")[1]}
                       </span>
                     </div>
                   </div>
                   <div>
                     <div className="text-base font-bold text-slate-800">
+                      {/* @ts-ignore */}
                       {TRIP_INFO.flight[type].arr.split(" ")[0]}{" "}
                       <span className="text-xs font-normal text-slate-500">
+                        {/* @ts-ignore */}
                         {TRIP_INFO.flight[type].arr.split(" ")[1]}
                       </span>
                     </div>
@@ -2526,7 +2537,7 @@ const ToolsView = () => {
 };
 
 const BudgetView = () => {
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<any[]>([]);
   const [inputTitle, setInputTitle] = useState("");
   const [inputAmount, setInputAmount] = useState("");
   const [inputType, setInputType] = useState("food");
@@ -2535,8 +2546,9 @@ const BudgetView = () => {
   const [selectedDateFilter, setSelectedDateFilter] = useState("all");
   const [inputDate, setInputDate] = useState("2026/2/22 (日)");
 
+  // SHARED DATA: budget_items
   useEffect(() => {
-    const q = query(collection(db, "budget_items"), orderBy("date"));
+    const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'budget_items'), orderBy("date"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const newItems = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -2571,14 +2583,14 @@ const BudgetView = () => {
     return sum + finalAmount;
   }, 0);
 
-  const addItem = async (e) => {
+  const addItem = async (e: any) => {
     e.preventDefault();
     if (!inputTitle || !inputAmount || !inputPayer) return;
 
     const dateToAdd =
       selectedDateFilter !== "all" ? selectedDateFilter : inputDate;
 
-    await addDoc(collection(db, "budget_items"), {
+    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'budget_items'), {
       title: inputTitle,
       amount: Number(inputAmount),
       type: inputType,
@@ -2592,11 +2604,11 @@ const BudgetView = () => {
     setInputPayer("");
   };
 
-  const deleteItem = async (id) => {
-    await deleteDoc(doc(db, "budget_items", id));
+  const deleteItem = async (id: string) => {
+    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'budget_items', id));
   };
 
-  const typeColors = {
+  const typeColors: any = {
     pre: "bg-gray-100 text-gray-600",
     food: "bg-orange-100 text-orange-600",
     transport: "bg-blue-100 text-blue-600",
@@ -2605,7 +2617,7 @@ const BudgetView = () => {
     other: "bg-slate-100 text-slate-600",
   };
 
-  const typeLabels = {
+  const typeLabels: any = {
     pre: "準備",
     food: "飲食",
     transport: "交通",
@@ -2842,6 +2854,33 @@ const BudgetView = () => {
 const App = () => {
   const [activeTab, setActiveTab] = useState("itinerary");
   const [selectedDay, setSelectedDay] = useState(1);
+  const [user, setUser] = useState<any>(null);
+
+  // AUTH LOGIC: 啟動時自動匿名登入，無需使用者介入
+  useEffect(() => {
+    const initAuth = async () => {
+      try {
+        await signInAnonymously(auth);
+      } catch (err) {
+        console.error("Auth failed", err);
+      }
+    };
+    initAuth();
+
+    return onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+  }, []);
+
+  // 如果還沒登入完成 (user is null)，顯示載入畫面
+  if (!user) {
+    return (
+      <div className="h-[100dvh] bg-slate-50 flex items-center justify-center flex-col gap-3">
+        <Loader className="animate-spin text-blue-500" size={32} />
+        <p className="text-slate-400 text-sm font-bold">載入行程中...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-slate-50 h-[100dvh] w-full flex flex-col font-sans selection:bg-slate-200">
@@ -2911,5 +2950,3 @@ const App = () => {
 };
 
 export default App;
-
-// Force update 12081723
