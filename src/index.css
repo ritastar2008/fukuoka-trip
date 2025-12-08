@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 確保手機版高度正確 */
+html, body, #root {
+  height: 100%;
+}
