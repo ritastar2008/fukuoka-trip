@@ -50,6 +50,7 @@ import {
   Search,
   LayoutGrid,
   List,
+  AlertCircle
 } from "lucide-react";
 
 // --- Firebase 導入 ---
@@ -92,9 +93,6 @@ const firebaseConfig = envConfig || {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-// 定義共用 App ID，確保所有人連到同一個資料區塊
-const appId = typeof window !== 'undefined' && (window as any).__app_id ? (window as any).__app_id : 'fukuoka-trip-shared';
 
 // --- 設定 ---
 const EXCHANGE_RATE = 0.22; // 日幣匯率設定
@@ -1319,9 +1317,10 @@ const PocketListView = () => {
     { id: "shop", label: "逛街", icon: <ShoppingBag size={16} /> },
   ];
 
-  // Sync from Firebase (SHARED DATA)
+  // Sync from Firebase (OLD PATH: pocket_items)
   useEffect(() => {
-    const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'pocket_items'));
+    // 修正：改回讀取根目錄的 'pocket_items'，而不是 'artifacts/...'
+    const q = query(collection(db, 'pocket_items'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const newItems = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -1373,7 +1372,7 @@ const PocketListView = () => {
 
     if (editingId) {
       // Update existing item
-      const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'pocket_items', editingId);
+      const itemRef = doc(db, 'pocket_items', editingId);
       await updateDoc(itemRef, {
         name,
         hours,
@@ -1386,7 +1385,7 @@ const PocketListView = () => {
       setEditingId(null);
     } else {
       // Add new item
-      await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'pocket_items'), {
+      await addDoc(collection(db, 'pocket_items'), {
         type: activeFilter,
         name,
         hours,
@@ -1412,12 +1411,12 @@ const PocketListView = () => {
 
   const handleDelete = async (id: string) => {
     if (window.confirm("確定要刪除這個口袋名單嗎？")) {
-      await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'pocket_items', id));
+      await deleteDoc(doc(db, 'pocket_items', id));
     }
   };
 
   const toggleImageVisibility = async (id: string, currentStatus: boolean) => {
-    const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'pocket_items', id);
+    const itemRef = doc(db, 'pocket_items', id);
     await updateDoc(itemRef, { showImage: !currentStatus });
   };
 
@@ -1822,9 +1821,10 @@ const PreparationView = () => {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
 
-  // SHARED DATA: checklist_items
+  // SHARED DATA: checklist_items (OLD PATH)
   useEffect(() => {
-    const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'checklist_items'));
+    // 修正：改回讀取根目錄的 'checklist_items'
+    const q = query(collection(db, 'checklist_items'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const newItems = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -1860,12 +1860,12 @@ const PreparationView = () => {
   ];
 
   const toggleItem = async (itemId: string, currentStatus: boolean) => {
-    const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'checklist_items', itemId);
+    const itemRef = doc(db, 'checklist_items', itemId);
     await updateDoc(itemRef, { checked: !currentStatus });
   };
 
   const deleteItem = async (itemId: string) => {
-    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'checklist_items', itemId));
+    await deleteDoc(doc(db, 'checklist_items', itemId));
   };
 
   const startEditing = (catId: string, item: any) => {
@@ -1899,11 +1899,11 @@ const PreparationView = () => {
     if (!text) return;
 
     if (editingId) {
-      const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'checklist_items', editingId);
+      const itemRef = doc(db, 'checklist_items', editingId);
       await updateDoc(itemRef, { text });
       setEditingId(null);
     } else {
-      await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'checklist_items'), {
+      await addDoc(collection(db, 'checklist_items'), {
         catId,
         text,
         checked: false,
@@ -1917,7 +1917,7 @@ const PreparationView = () => {
     if (!input || !input.text.trim()) return;
 
     if (editingId) {
-      const itemRef = doc(db, 'artifacts', appId, 'public', 'data', 'checklist_items', editingId);
+      const itemRef = doc(db, 'checklist_items', editingId);
       await updateDoc(itemRef, {
         text: input.text,
         location: input.location,
@@ -1926,7 +1926,7 @@ const PreparationView = () => {
       });
       setEditingId(null);
     } else {
-      await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'checklist_items'), {
+      await addDoc(collection(db, 'checklist_items'), {
         catId,
         text: input.text,
         location: input.location,
@@ -2546,9 +2546,10 @@ const BudgetView = () => {
   const [selectedDateFilter, setSelectedDateFilter] = useState("all");
   const [inputDate, setInputDate] = useState("2026/2/22 (日)");
 
-  // SHARED DATA: budget_items
+  // SHARED DATA: budget_items (OLD PATH)
   useEffect(() => {
-    const q = query(collection(db, 'artifacts', appId, 'public', 'data', 'budget_items'), orderBy("date"));
+    // 修正：改回讀取根目錄的 'budget_items'
+    const q = query(collection(db, 'budget_items'), orderBy("date"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const newItems = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -2590,7 +2591,7 @@ const BudgetView = () => {
     const dateToAdd =
       selectedDateFilter !== "all" ? selectedDateFilter : inputDate;
 
-    await addDoc(collection(db, 'artifacts', appId, 'public', 'data', 'budget_items'), {
+    await addDoc(collection(db, 'budget_items'), {
       title: inputTitle,
       amount: Number(inputAmount),
       type: inputType,
@@ -2605,7 +2606,7 @@ const BudgetView = () => {
   };
 
   const deleteItem = async (id: string) => {
-    await deleteDoc(doc(db, 'artifacts', appId, 'public', 'data', 'budget_items', id));
+    await deleteDoc(doc(db, 'budget_items', id));
   };
 
   const typeColors: any = {
@@ -2855,14 +2856,16 @@ const App = () => {
   const [activeTab, setActiveTab] = useState("itinerary");
   const [selectedDay, setSelectedDay] = useState(1);
   const [user, setUser] = useState<any>(null);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   // AUTH LOGIC: 啟動時自動匿名登入，無需使用者介入
   useEffect(() => {
     const initAuth = async () => {
       try {
         await signInAnonymously(auth);
-      } catch (err) {
+      } catch (err: any) {
         console.error("Auth failed", err);
+        setAuthError(err.message);
       }
     };
     initAuth();
@@ -2871,6 +2874,20 @@ const App = () => {
       setUser(currentUser);
     });
   }, []);
+
+  // 如果 Firebase 連線失敗 (網域沒加入白名單)，顯示錯誤提示
+  if (authError) {
+    return (
+      <div className="h-[100dvh] bg-slate-50 flex items-center justify-center flex-col gap-3 p-4 text-center">
+        <AlertCircle className="text-red-500" size={48} />
+        <h2 className="text-slate-800 text-lg font-bold">無法連線到資料庫</h2>
+        <p className="text-slate-500 text-sm">請前往 Firebase Console 設定 Authorized Domains</p>
+        <div className="bg-red-50 text-red-600 text-xs p-3 rounded-lg border border-red-100 max-w-xs break-all">
+          {authError}
+        </div>
+      </div>
+    );
+  }
 
   // 如果還沒登入完成 (user is null)，顯示載入畫面
   if (!user) {
