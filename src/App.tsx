@@ -50,7 +50,8 @@ import {
   Search,
   LayoutGrid,
   List,
-  AlertCircle
+  AlertCircle,
+  ShieldAlert
 } from "lucide-react";
 
 // --- Firebase 導入 ---
@@ -75,7 +76,6 @@ import {
 // =================================================================
 // ⚠️ Firebase 設定
 // =================================================================
-// 嘗試使用環境變數（預覽環境用），若無則使用您提供的 Config（正式環境用）
 const envConfig = typeof window !== 'undefined' && (window as any).__firebase_config 
   ? JSON.parse((window as any).__firebase_config) 
   : null;
@@ -133,6 +133,23 @@ const renderWeatherIcon = (iconName: string) => {
       return <Sun className="text-orange-400" size={20} />;
   }
 };
+
+// --- Error Display Component ---
+const PermissionErrorBanner = () => (
+  <div className="bg-red-50 p-4 rounded-xl border border-red-200 text-red-800 text-sm mb-4 space-y-2 animate-fade-in">
+    <div className="flex items-center gap-2 font-bold text-red-700">
+      <ShieldAlert size={20} />
+      <span>權限不足 (Permission Denied)</span>
+    </div>
+    <p>無法讀取資料庫。請確認 Firebase Console 的 <strong>Firestore Database &gt; Rules</strong> 設定正確：</p>
+    <div className="bg-white p-2 rounded border border-red-100 font-mono text-xs overflow-x-auto">
+      allow read, write: if request.auth != null;
+    </div>
+    <p className="text-xs text-red-600">
+      * 另外請確認 Authentication &gt; Sign-in method &gt; <strong>Anonymous</strong> 已啟用。
+    </p>
+  </div>
+);
 
 // --- 資料常數 ---
 
@@ -1296,11 +1313,12 @@ const ChecklistGroup = ({
 
 // --- Pocket List View ---
 
-const PocketListView = () => {
+const PocketListView = ({ user }: { user: any }) => {
   const [items, setItems] = useState<any[]>([]);
   const [activeFilter, setActiveFilter] = useState("food"); // food, spot, shop
   const [isExpanded, setIsExpanded] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // Form State
   const [name, setName] = useState("");
@@ -1319,17 +1337,31 @@ const PocketListView = () => {
 
   // Sync from Firebase (OLD PATH: pocket_items)
   useEffect(() => {
-    // 修正：改回讀取根目錄的 'pocket_items'，而不是 'artifacts/...'
+    // 只有當使用者已登入 (user 存在) 時才執行查詢，避免權限錯誤
+    if (!user) return;
+
     const q = query(collection(db, 'pocket_items'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const newItems = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setItems(newItems);
-    });
+    const unsubscribe = onSnapshot(q, 
+      (snapshot) => {
+        setError(null);
+        const newItems = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setItems(newItems);
+      },
+      (err) => {
+        console.error("Snapshot error:", err);
+        // 設定錯誤訊息，讓 UI 顯示
+        if (err.code === 'permission-denied') {
+          setError("permission-denied");
+        } else {
+          setError(`讀取失敗: ${err.message}`);
+        }
+      }
+    );
     return () => unsubscribe();
-  }, []);
+  }, [user]); // 加入 user 作為依賴
 
   // Sort Items by Station
   const sortedItems = useMemo(() => {
@@ -1428,8 +1460,16 @@ const PocketListView = () => {
   };
 
   return (
-    <div className="p-4 pb-24 space-y-4 animate-fade-in h-full flex flex-col">
+    // 移除 pb-24，只保留基本的 p-4，讓高度自動填滿父容器
+    <div className="p-4 space-y-4 animate-fade-in h-full flex flex-col">
       <h1 className="text-2xl font-bold text-slate-800 mb-2">口袋名單</h1>
+
+      {error === 'permission-denied' && <PermissionErrorBanner />}
+      {error && error !== 'permission-denied' && (
+        <div className="bg-red-50 p-4 rounded-xl border border-red-200 text-red-600 text-sm mb-4">
+          {error}
+        </div>
+      )}
 
       {/* Filter Tabs */}
       <div className="flex bg-white p-1 rounded-xl border border-slate-100 shadow-sm shrink-0">
@@ -1594,7 +1634,7 @@ const PocketListView = () => {
 
       {/* List Items */}
       <div className="flex-1 overflow-y-auto space-y-3 pr-1">
-        {sortedItems.length === 0 ? (
+        {sortedItems.length === 0 && !error ? (
           <div className="text-center text-slate-400 py-10 flex flex-col items-center">
             <ClipboardList size={48} className="mb-2 opacity-20" />
             <p>
@@ -1814,26 +1854,41 @@ const WeatherForecast = () => {
 };
 
 // --- Preparation View ---
-const PreparationView = () => {
+const PreparationView = ({ user }: { user: any }) => {
   const [items, setItems] = useState<any[]>([]);
   const [inputStates, setInputStates] = useState<any>({});
   const [shoppingInputStates, setShoppingInputStates] = useState<any>({});
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   // SHARED DATA: checklist_items (OLD PATH)
   useEffect(() => {
+    // 只有當使用者已登入 (user 存在) 時才執行查詢
+    if (!user) return;
+
     // 修正：改回讀取根目錄的 'checklist_items'
     const q = query(collection(db, 'checklist_items'));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const newItems = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setItems(newItems);
-    });
+    const unsubscribe = onSnapshot(q, 
+      (snapshot) => {
+        setError(null);
+        const newItems = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setItems(newItems);
+      },
+      (err) => {
+        console.error("Snapshot error:", err);
+        if (err.code === 'permission-denied') {
+          setError("permission-denied");
+        } else {
+          setError("無法讀取資料");
+        }
+      }
+    );
     return () => unsubscribe();
-  }, []);
+  }, [user]); // 加入 user 作為依賴
 
   const categories = [
     { id: "tickets", title: "門票預約 (出發前)", icon: <Ticket size={18} /> },
@@ -1946,6 +2001,14 @@ const PreparationView = () => {
       <h1 className="text-2xl font-bold text-slate-800 mb-4">
         行前準備 Checklist
       </h1>
+      
+      {error === 'permission-denied' && <PermissionErrorBanner />}
+      {error && error !== 'permission-denied' && (
+        <div className="bg-red-50 p-4 rounded-xl border border-red-200 text-red-600 text-sm mb-4">
+          {error}
+        </div>
+      )}
+
       {previewImage && (
         <ImagePreviewModal
           src={previewImage}
@@ -2536,7 +2599,7 @@ const ToolsView = () => {
   );
 };
 
-const BudgetView = () => {
+const BudgetView = ({ user }: { user: any }) => {
   const [items, setItems] = useState<any[]>([]);
   const [inputTitle, setInputTitle] = useState("");
   const [inputAmount, setInputAmount] = useState("");
@@ -2545,20 +2608,31 @@ const BudgetView = () => {
   const [inputCurrency, setInputCurrency] = useState("JPY");
   const [selectedDateFilter, setSelectedDateFilter] = useState("all");
   const [inputDate, setInputDate] = useState("2026/2/22 (日)");
+  const [error, setError] = useState<string | null>(null);
 
   // SHARED DATA: budget_items (OLD PATH)
   useEffect(() => {
+    // 只有當使用者已登入 (user 存在) 時才執行查詢
+    if (!user) return;
+
     // 修正：改回讀取根目錄的 'budget_items'
     const q = query(collection(db, 'budget_items'), orderBy("date"));
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const newItems = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setItems(newItems);
-    });
+    const unsubscribe = onSnapshot(q, 
+      (snapshot) => {
+        setError(null);
+        const newItems = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setItems(newItems);
+      },
+      (err) => {
+        console.error("Snapshot error:", err);
+        setError("無法讀取資料");
+      }
+    );
     return () => unsubscribe();
-  }, []);
+  }, [user]); // 加入 user 作為依賴
 
   const dateOptions = useMemo(
     () => [
@@ -2675,7 +2749,12 @@ const BudgetView = () => {
       </div>
 
       <div className="flex-1 overflow-y-auto mb-2 space-y-2 pr-1">
-        {filteredItems.length === 0 && (
+        {error && (
+          <div className="bg-red-50 p-4 rounded-xl border border-red-200 text-red-600 text-sm mb-4 text-center">
+            {error}
+          </div>
+        )}
+        {filteredItems.length === 0 && !error && (
           <div className="text-center text-slate-400 mt-10">
             <p className="text-sm">尚無紀錄</p>
             <p className="text-xs mt-1">點擊下方新增一筆支出</p>
@@ -2910,9 +2989,9 @@ const App = () => {
           />
         )}
         {activeTab === "tools" && <ToolsView />}
-        {activeTab === "preparation" && <PreparationView />}
-        {activeTab === "budget" && <BudgetView />}
-        {activeTab === "pocket" && <PocketListView />}
+        {activeTab === "preparation" && <PreparationView user={user} />}
+        {activeTab === "budget" && <BudgetView user={user} />}
+        {activeTab === "pocket" && <PocketListView user={user} />}
       </div>
 
       {/* 底部導航欄 */}
