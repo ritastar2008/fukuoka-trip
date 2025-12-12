@@ -398,75 +398,6 @@ const ITINERARY = [
   {
     day: 2,
     date: "2/23 (一)",
-    location: "海之中道 & 博多站購物",
-    activities: [
-      {
-        time: "09:00",
-        type: "hotel",
-        title: "飯店出發",
-        desc: "準備出發前往今天的行程。",
-        tips: "",
-        mapQuery: "Richmond Hotel Hakata Ekimae",
-      },
-      {
-        time: "09:10",
-        type: "food",
-        title: "早餐：Dacomecca 麵包店",
-        desc: "營業時間: 07:00–19:00。步行前往 (約3-5分鐘)。福岡超人氣麵包店，裝潢像廢墟風，麵包非常精緻。",
-        tips: "建議提早排隊，人潮眾多。",
-        mapQuery: "Dacomecca",
-      },
-      {
-        time: "10:00",
-        type: "spot",
-        title: "海洋世界海之中道",
-        desc: "營業時間: 09:30-17:30。交通：【JR鹿兒島本線(紅線) 博多 >> 香椎(4站)】轉乘 >> 【JR香椎線(藍線) 香椎 >> 海之中道(4站)】。",
-        tips: "請注意：這是 JR 路線，不是地下鐵。這裡有海豚秀和超大水族箱，非常適合親子。",
-        mapQuery: "Marine World Uminonakamichi",
-      },
-      {
-        time: "15:00",
-        type: "shop",
-        title: "博多阪急",
-        desc: "營業時間: 10:00-20:00。交通：【JR香椎線(藍線) 海之中道 >> 香椎(4站)】轉乘 >> 【JR鹿兒島本線(紅線) 香椎 >> 博多(4站)】。",
-        tips: "博多車站共構的百貨公司，B1美食街非常精彩。",
-        mapQuery: "Hakata Hankyu",
-        alternatives: [
-          {
-            title: "10mois",
-            desc: "逛逛母嬰用品(布類，台灣價差大)",
-            type: "shop",
-            mapQuery: "10mois Hakata Hankyu",
-          },
-          {
-            title: "B1F 北野超市（KITANO ACE）",
-            desc: "調味料天堂，必去!",
-            type: "shop",
-            mapQuery: "Kitano Ace Hakata Hankyu",
-          },
-        ],
-      },
-      {
-        time: "18:00",
-        type: "food",
-        title: "晚餐：博多車站周邊",
-        desc: "在博多阪急 B1 或博多車站拉麵街享用晚餐。",
-        tips: "",
-        mapQuery: "Hakata Station",
-      },
-      {
-        time: "20:00",
-        type: "transport",
-        title: "回飯店休息",
-        desc: "步行回飯店。",
-        tips: "",
-        mapQuery: "Richmond Hotel Hakata Ekimae",
-      },
-    ],
-  },
-  {
-    day: 3,
-    date: "2/24 (二)",
     location: "麵包超人兒童博物館 & 川端通商店街",
     activities: [
       {
@@ -538,6 +469,75 @@ const ITINERARY = [
         type: "transport",
         title: "回飯店休息",
         desc: "從博多運河城/餐廳步行或搭公車回飯店。",
+        tips: "",
+        mapQuery: "Richmond Hotel Hakata Ekimae",
+      },
+    ],
+  },
+  {
+    day: 3,
+    date: "2/24 (二)",
+    location: "海之中道 & 博多站購物",
+    activities: [
+      {
+        time: "09:00",
+        type: "hotel",
+        title: "飯店出發",
+        desc: "準備出發前往今天的行程。",
+        tips: "",
+        mapQuery: "Richmond Hotel Hakata Ekimae",
+      },
+      {
+        time: "09:10",
+        type: "food",
+        title: "早餐：Dacomecca 麵包店",
+        desc: "營業時間: 07:00–19:00。步行前往 (約3-5分鐘)。福岡超人氣麵包店，裝潢像廢墟風，麵包非常精緻。",
+        tips: "建議提早排隊，人潮眾多。",
+        mapQuery: "Dacomecca",
+      },
+      {
+        time: "10:00",
+        type: "spot",
+        title: "海洋世界海之中道",
+        desc: "營業時間: 09:30-17:30。交通：【JR鹿兒島本線(紅線) 博多 >> 香椎(4站)】轉乘 >> 【JR香椎線(藍線) 香椎 >> 海之中道(4站)】。",
+        tips: "請注意：這是 JR 路線，不是地下鐵。這裡有海豚秀和超大水族箱，非常適合親子。",
+        mapQuery: "Marine World Uminonakamichi",
+      },
+      {
+        time: "15:00",
+        type: "shop",
+        title: "博多阪急",
+        desc: "營業時間: 10:00-20:00。交通：【JR香椎線(藍線) 海之中道 >> 香椎(4站)】轉乘 >> 【JR鹿兒島本線(紅線) 香椎 >> 博多(4站)】。",
+        tips: "博多車站共構的百貨公司，B1美食街非常精彩。",
+        mapQuery: "Hakata Hankyu",
+        alternatives: [
+          {
+            title: "10mois",
+            desc: "逛逛母嬰用品(布類，台灣價差大)",
+            type: "shop",
+            mapQuery: "10mois Hakata Hankyu",
+          },
+          {
+            title: "B1F 北野超市（KITANO ACE）",
+            desc: "調味料天堂，必去!",
+            type: "shop",
+            mapQuery: "Kitano Ace Hakata Hankyu",
+          },
+        ],
+      },
+      {
+        time: "18:00",
+        type: "food",
+        title: "晚餐：博多車站周邊",
+        desc: "在博多阪急 B1 或博多車站拉麵街享用晚餐。",
+        tips: "",
+        mapQuery: "Hakata Station",
+      },
+      {
+        time: "20:00",
+        type: "transport",
+        title: "回飯店休息",
+        desc: "步行回飯店。",
         tips: "",
         mapQuery: "Richmond Hotel Hakata Ekimae",
       },
@@ -2628,7 +2628,11 @@ const BudgetView = ({ user }: { user: any }) => {
       },
       (err) => {
         console.error("Snapshot error:", err);
-        setError("無法讀取資料");
+        if (err.code === 'permission-denied') {
+          setError("permission-denied");
+        } else {
+          setError("無法讀取資料");
+        }
       }
     );
     return () => unsubscribe();
@@ -2749,8 +2753,9 @@ const BudgetView = ({ user }: { user: any }) => {
       </div>
 
       <div className="flex-1 overflow-y-auto mb-2 space-y-2 pr-1">
-        {error && (
-          <div className="bg-red-50 p-4 rounded-xl border border-red-200 text-red-600 text-sm mb-4 text-center">
+        {error === 'permission-denied' && <PermissionErrorBanner />}
+        {error && error !== 'permission-denied' && (
+          <div className="bg-red-50 p-4 rounded-xl border border-red-200 text-red-600 text-sm mb-4">
             {error}
           </div>
         )}
