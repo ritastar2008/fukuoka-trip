@@ -362,14 +362,31 @@ const ITINERARY = [
         type: "shop",
         title: "博多車站 / Yodobashi",
         desc: "博多阪急 7F (寶寶衣服/玩具/育嬰室)、頂樓 RF 燕子電車 (可親子共乘)。",
-        tips: "KITTE 走連通道到 AMU PLAZA，找 AMU 專用電梯到 RF。",
+        tips: "KITTE 走連通道到 AMU PLAZA，找 AMU 專用電梯(「屋上・つばめの杜ひろば」）坐到RF。",
         mapQuery: "Hakata Station",
+        alternatives: [
+            {
+                title: "博多阪急 7F",
+                type: "Shop",
+                desc: "買寶寶衣服、玩玩具、換尿布（育嬰設施全福岡數一數二）"
+            },
+             {
+                title: "燕子電車 (Tsubame Train)車站頂樓",
+                type: "Shop",
+                desc: "這裡有收費的小火車（繞行兩圈約 200-300 日圓），1.5 歲寶寶可以由大人抱著一起坐。"
+            },
+             {
+                title: "Yodobashi 友都八喜",
+                type: "Shop",
+                desc: "營業時間 09:20-22:00"
+            }
+        ]
       },
       {
         time: "17:15",
         type: "shop",
-        title: "晚餐採買：Lopia 超市",
-        desc: "位於 Yodobashi 4F。便宜好買，適合買熟食、草莓、優格回飯店吃。",
+        title: "晚餐: Lopia 超市",
+        desc: "位於 Yodobashi 4F。\n便宜好買，適合買熟食、優格、福岡草莓（品種建議選：あまおう / Amaou）非常大顆且甜回飯店吃。",
         tips: "注意：Lopia 只收現金！(Yodobashi 其他樓層可刷卡)",
         mapQuery: "Lopia Hakata Yodobashi",
       },
@@ -385,7 +402,7 @@ const ITINERARY = [
         time: "09:30",
         type: "food",
         title: "早餐：飯糰 & 麵包",
-        desc: "「米屋の飯切」或「糸島飯糰」買飯糰，「Trandor」買小餐包給寶寶。",
+        desc: "「米屋の飯切」或「糸島おむすび ふちがみ」買飯糰，「Trandor」買小餐包給寶寶。",
         tips: "博多車站內購買。",
         mapQuery: "Hakata Station",
       },
@@ -396,13 +413,30 @@ const ITINERARY = [
         desc: "適逢連假，首選計程車 (約1500-2000日圓)。博多口左前方有計程車排班。",
         tips: "備案交通：地鐵七隈線(博多>櫻坂) 或 58號公車。",
         mapQuery: "Fukuoka City Zoo",
+        alternatives: [
+            {
+                title: "交通1.搭計程車約 1,500 - 2,000 日圓。",
+                type: "Traffic",
+                desc: "乘車位置：博多口 (Hakata-guchi)走出博多口的大門後，往左前方看（靠近西日本銀行或西鐵巴士站方向），您會看到非常整齊的計程車排隊序列。(車程約約 15–20 分鐘)。"
+            },
+             {
+                title: "交通2.搭地下鐵",
+                type: "Traffic",
+                desc: "步行4分鐘至博多站 >> 【地下鐵七隈線(綠線) 博多 >> 櫻坂(4站)】 >> 步行3分鐘。"
+            },
+             {
+                title: "交通3.搭公車",
+                type: "Traffic",
+                desc: "從博多車站搭乘 58號公車 直達「動物園前」站（車程約 20 分鐘）。"
+            }
+        ]
       },
       {
         time: "10:00",
         type: "spot",
         title: "動物園放電",
-        desc: "從「動物園正門」進。看獅子、大象、長頸鹿。有小火車和旋轉木馬。",
-        tips: "山上較冷，請帶推車防風罩和毛毯。風大可去室內科學館。",
+        desc: "從「動物園正門」進。看獅子、大象、長頸鹿。有適合小小孩的「小火車」和「旋轉木馬」，1.5 歲寶寶坐火車通常會很興奮。",
+        tips: "山上較冷，請帶推車防風罩和毛毯。風大可去室內的「動物科學館」。",
         mapQuery: "Fukuoka City Zoo",
       },
       {
@@ -417,30 +451,30 @@ const ITINERARY = [
         time: "13:30",
         type: "spot",
         title: "植物園 & 午睡",
-        desc: "過天橋到植物園，溫室暖和漂亮。寶寶午睡時大人可喝咖啡休息。",
-        tips: "植物園相對安靜。",
+        desc: "動物園與植物園有天橋連通。這段時間通常是寶寶在推車上睡覺的好時機，大人可以趁機喝杯咖啡休息。",
+        tips: "植物園更安靜，溫室內暖和且漂亮。",
         mapQuery: "Fukuoka City Botanical Garden",
       },
       {
         time: "15:30",
         type: "shop",
         title: "返回博多車站逛街",
-        desc: "AMU PLAZA 或 阪急百貨。建議現在先買好伴手禮 (明太子醬等)。",
-        tips: "",
+        desc: "AMU PLAZA 或 阪急百貨。",
+        tips: "建議現在先買好伴手禮 (明太子醬等)。",
         mapQuery: "Hakata Station",
       },
       {
         time: "18:00",
         type: "food",
         title: "晚餐：濱田屋 (水炊鍋)",
-        desc: "AMU PLAZA 10F。建議 17:15 提早去避開人潮。",
-        tips: "若寶寶太累，可改去阪急 B1 買「古市庵」押壽司回飯店吃。",
+        desc: "營業時間:11:00-22:00 AMU PLAZA 10F。",
+        tips: "建議 17:15 提早去避開人潮。",
         mapQuery: "Hakata Mizutaki Hamadaya",
         alternatives: [
             {
                 title: "古市庵 (阪急B1)",
                 type: "food",
-                desc: "外帶押壽司或飯糰，米飯水準高。",
+                desc: "外帶押壽司或飯糰，米飯水準高，也有很多沒放生魚的小飯糰。",
                 mapQuery: "Koichian Hakata Hankyu"
             }
         ]
@@ -457,44 +491,45 @@ const ITINERARY = [
         time: "08:00",
         type: "food",
         title: "早餐：客美多咖啡",
-        desc: "博多站東店 (步行4分鐘)。建議 09:30 離開。",
-        tips: "",
+        desc: "博多站東店 (步行4分鐘)。",
+        tips: "建議 09:30 離開。",
         mapQuery: "Komeda's Coffee Hakata Station East",
       },
       {
         time: "10:00",
         type: "spot",
         title: "福岡麵包超人博物館",
-        desc: "Riverain Mall 5F/6F。地鐵中洲川端站直結。先衝球池或沙坑。",
-        tips: "館內不能推推車 (入口有停放區)，請帶背巾。",
+        desc: "營業時間: 10:00-17:00。交通：【地下鐵空港線(紅線) 博多 >> 中洲川端(2站)】，步行7分鐘。位於 Riverain Mall 5F/6F。",
+        tips: "剛開館人最少，先衝最受歡迎的「球池」或「沙坑」，並確認早上的表演秀時間（通常 11:00 左右會有一場）。",
         mapQuery: "Fukuoka Anpanman Children's Museum",
       },
       {
         time: "13:30",
         type: "food",
         title: "午餐：烤肉 石原牛",
-        desc: "步行2分鐘。平日13:00後上班族午休結束，環境較安靜放鬆。",
-        tips: "A5和牛午間套餐 CP 值高。",
+        desc: "步行2分鐘。A5和牛午間套餐 CP 值高。",
+        tips: "平日13:00後上班族午休結束，環境較安靜放鬆。",
         mapQuery: "Hakata Yakiniku Ishiharanogyu",
       },
       {
         time: "15:00",
         type: "spot",
         title: "川端通商店街 (午睡)",
-        desc: "寶寶午睡，爸媽悠閒逛街喝咖啡。可去「川端紅豆湯廣場」看山笠。",
-        tips: "有遮雨棚，好推車。",
+        desc: "寶寶午睡，爸媽悠閒逛街喝咖啡。可去川端通商店街裡有一間 「川端ぜんざい広場」（紅豆湯廣場）看山笠。",
+        tips: "寶寶可以坐在裡面休息，看華麗的裝飾，大人喝碗熱紅豆湯。",
         mapQuery: "Kawabata Shopping Arcade",
       },
       {
         time: "16:00",
         type: "shop",
         title: "天神地下街",
-        desc: "地鐵至天神站。建議先逛西側 (Salut!, 3COINS, Natural Kitchen)。",
-        tips: "可在歐風休息區吃點心 (RINGO, BAKE, Blue Bottle)。",
+        desc: "交通:【地下鐵空港線(紅線) 中洲川端站 >> 天神站(1站)】",
+        tips: "建議先逛 「西側」（靠近地下鐵入口），必逛推薦： * Salut! / 3COINS / Natural Kitchen：精緻的日式百圓雜貨。可在歐風休息區吃點心。",
         mapQuery: "Tenjin Underground Shopping Center",
         alternatives: [
-            { title: "BOUL'ANGE", type: "food", desc: "可頌麵包", mapQuery: "BOUL'ANGE Fukuoka" },
-            { title: "RINGO", type: "food", desc: "蘋果派", mapQuery: "RINGO Tenjin" },
+            { title: "BOUL'ANGE", type: "food", desc: "08:30-20:00，推薦開心果捲捲酥、可頌麵包。", mapQuery: "BOUL'ANGE Fukuoka" },
+            { title: "RINGO(蘋果派)", type: "food", desc: "09:00-21:00，必吃現烤卡士達蘋果派。", mapQuery: "RINGO Tenjin" },
+            { title: "BAKE Cheese Tart（半熟起司塔）", type: "food", desc: "09:00-21:00。"},
             { title: "Blue Bottle", type: "food", desc: "警固神社內", mapQuery: "Blue Bottle Coffee Fukuoka Tenjin" }
         ]
       },
@@ -506,7 +541,7 @@ const ITINERARY = [
         tips: "很多軟糯豆腐和炊飯，適合 1.5 歲寶寶。",
         mapQuery: "Obon de Gohan KITTE Hakata",
         alternatives: [
-            { title: "Chicken Man", type: "food", desc: "歐姆蛋飯、烤雞", mapQuery: "Chicken Man Hakata" }
+            { title: "ラーメンと鶏鉄板 チキンマン ", type: "food", desc: "營業時間:11:00-23:00沒排隊可吃，推歐姆蛋飯加點沙拉盤或烤雞蔬菜組合，親子友善。", mapQuery: "Chicken Man Hakata" }
         ]
       },
     ],
@@ -521,23 +556,30 @@ const ITINERARY = [
         time: "08:30",
         type: "food",
         title: "早餐：飯糰 vs 麵包",
-        desc: "博多站買好早午餐，並多買點水、果汁、小零食帶在身上。",
-        tips: "米屋の飯切 / Trandor",
+        desc: "米屋の飯切 / Trandor",
         mapQuery: "Hakata Station",
       },
       {
         time: "09:30",
         type: "spot",
         title: "海洋世界海之中道",
-        desc: "JR 香椎線「海之中道」站。10:30 看大水槽、企鵝。",
+        desc: "營業時間: 09:30-17:30。交通：【JR鹿兒島本線(紅線) 博多 >> 香椎(4站)】轉乘 >> 【JR香椎線(藍線) 香椎 >> 海之中道(4站)】。",
         tips: "這是 JR 路線，不是地鐵。",
+        mapQuery: "Marine World Uminonakamichi",
+      },
+      {
+        time: "10:30",
+        type: "spot",
+        title: "看 1 樓的大水槽、企鵝",
+        desc: "",
+        tips: "",
         mapQuery: "Marine World Uminonakamichi",
       },
       {
         time: "11:30",
         type: "food",
         title: "午餐：B1 Reilly 餐廳",
-        desc: "趁人少先吃。邊吃飯邊看海豚和鯊魚游過，寶寶會很愛。",
+        desc: "趁人少先吃，這間餐廳最著名的就是巨大的水槽景觀。邊吃飯邊看海豚和鯊魚游過，寶寶會很愛。",
         tips: "",
         mapQuery: "Marine World Uminonakamichi",
       },
@@ -553,19 +595,19 @@ const ITINERARY = [
         time: "16:00",
         type: "transport",
         title: "搭車返回博多",
-        desc: "避開 17:00 後下班人潮。",
-        tips: "",
+        desc: "",
+        tips: "避開 17:00 後下班人潮。",
         mapQuery: "Hakata Station",
       },
       {
         time: "17:30",
         type: "food",
         title: "晚餐：葉隱烏龍麵",
-        desc: "必點：肉烏龍、蝦天婦羅烏龍、雞肉飯 (かしわめし)。",
-        tips: "17:00 開門人最少，建議早點去。",
+        desc: "必點：肉烏龍麵 (肉うどん)、蝦天婦羅烏龍麵 (えびかき揚げうどん)、雞肉飯 (かしわめし)。",
+        tips: "17:00 開門人最少，建議早點去。tablog百大名店。",
         mapQuery: "Hagakure Udon",
         alternatives: [
-            { title: "華蓮 (AMU 9F)", type: "food", desc: "蒸籠料理，大量蔬菜適合寶寶", mapQuery: "Karen Hakata" }
+            { title: "華蓮 (AMU 9F)", type: "food", desc: "晚餐預算約 $7,000$ 日圓以上/人）蒸籠料理，大量蔬菜適合寶寶", mapQuery: "Karen Hakata" }
         ]
       },
     ],
@@ -579,24 +621,24 @@ const ITINERARY = [
       {
         time: "08:00",
         type: "food",
-        title: "早餐：彌生軒 (筑紫口店)",
-        desc: "06:30 開門。推薦烤鮭魚定食、厚蛋燒。",
-        tips: "出門前記得檢查隨身行李。",
+        title: "早餐：彌生軒(やよい軒)筑紫口店-日式定食",
+        desc: "06:30 開門。",
+        tips: "推薦烤鮭魚定食、厚蛋燒。",
         mapQuery: "Yayoiken Hakata Chikushiguchi",
       },
       {
         time: "09:30",
         type: "transport",
         title: "退房 & 前往 LaLaport",
-        desc: "搭計程車直達。大行李寄放 1 樓置物櫃或人工寄存。",
-        tips: "LaLaport Fukuoka",
+        desc: "搭計程車直達。出門前記得檢查隨身行李。",
+        tips: "直接把大行李寄放在 LaLaport的置物櫃。1 樓的置物櫃有分大小，如果大行李箱放不下，可以詢問服務台是否有「人工行李寄存服務」。",
         mapQuery: "LaLaport Fukuoka",
       },
       {
         time: "10:00",
         type: "shop",
         title: "LaLaport 最後衝刺",
-        desc: "鋼彈拍照、阿卡將補貨、藥妝。",
+        desc: "鋼彈拍照、阿卡將、3coins、Loft、藥妝。",
         tips: "",
         mapQuery: "LaLaport Fukuoka",
       },
@@ -607,6 +649,23 @@ const ITINERARY = [
         desc: "知青豬排、清陽軒拉麵、Umaya 定食。",
         tips: "美食街座位多，適合小孩。",
         mapQuery: "LaLaport Fukuoka",
+    alternatives: [
+      {
+        title: "炸豬排知青 (TONKATSU CHISEI)",
+        type: "food",
+        desc: "3F美食街座位多，適合帶小孩。"
+      }, 
+      {
+        title: "久留米拉麵清陽軒",
+        type: "food",
+        desc: "3F可能是 LaLaport 唯一吃得到拉麵的地方。"
+      },
+      {
+        title: "UMAYA うまや",
+        type: "food",
+        desc: "3F南蠻炸雞、炙燒牛舌，福岡在地定食品牌。"
+      }
+    ]
       },
       {
         time: "13:30",
