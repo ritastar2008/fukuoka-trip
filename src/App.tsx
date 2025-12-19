@@ -525,9 +525,9 @@ const ITINERARY = [
         time: "15:00",
         type: "spot",
         title: "川端通商店街 (午睡)",
-        desc: "寶寶午睡，爸媽悠閒逛街喝咖啡。可去川端通商店街裡有一間 「川端ぜんざい広場」（紅豆湯廣場）看山笠。",
-        tips: "寶寶可以坐在裡面休息，看華麗的裝飾，大人喝碗熱紅豆湯。",
-        mapQuery: "Kawabata Shopping Arcade",
+        desc: "可去附近日本人愛去的PAN DEL SO買麵包喝咖啡。營業時間: 11:00-18:00",
+        tips: "寶寶午睡，爸媽悠閒逛櫛田神社、麵包店喝咖啡。",
+        mapQuery: "Cafe Pan del Sol",
       },
       {
         time: "16:00",
@@ -549,10 +549,15 @@ const ITINERARY = [
         title: "晚餐：Obon de Gohan",
         desc: "KITTE 博多店。均衡營養日式定食，環境親子友善。",
         tips: "很多軟糯豆腐和炊飯，適合 1.5 歲寶寶。",
-        mapQuery: "Obon de Gohan KITTE Hakata",
-        alternatives: [
-            { title: "ラーメンと鶏鉄板 チキンマン ", type: "food", desc: "營業時間:11:00-23:00沒排隊可吃，推歐姆蛋飯加點沙拉盤或烤雞蔬菜組合，親子友善。", mapQuery: "Chicken Man Hakata" }
-        ]
+        mapQuery: "Obon de Gohan KITTE Hakata"
+      },
+      {
+        time: "18:00(備案)",
+        type: "food",
+        title: "【備案】晚餐：ラーメンと鶏鉄板 チキンマン",
+        desc: "天神地下街附近，營業時間:11:00-23:00。",
+        tips: "沒排隊可吃，推歐姆蛋飯加點沙拉盤或烤雞蔬菜組合，親子友善。",
+        mapQuery: "Chicken Man Hakata"
       },
     ],
   },
