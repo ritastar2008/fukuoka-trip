@@ -53,7 +53,8 @@ import {
   AlertCircle,
   ShieldAlert,
   Bell,
-  Car
+  Car,
+  Utensils
 } from "lucide-react";
 
 // --- Firebase 導入 ---
@@ -78,8 +79,8 @@ import {
 // =================================================================
 // ⚠️ Firebase 設定
 // =================================================================
-const envConfig = typeof window !== 'undefined' && (window as any).__firebase_config 
-  ? JSON.parse((window as any).__firebase_config) 
+const envConfig = typeof window !== 'undefined' && window.__firebase_config 
+  ? JSON.parse(window.__firebase_config) 
   : null;
 
 const firebaseConfig = envConfig || {
@@ -100,7 +101,7 @@ const db = getFirestore(app);
 const EXCHANGE_RATE = 0.22; // 日幣匯率設定
 
 // --- 工具函式 ---
-const getGoogleDriveImage = (url: string) => {
+const getGoogleDriveImage = (url) => {
   if (!url) return undefined;
   if (url.includes("drive.google.com") || url.includes("docs.google.com")) {
     const idMatch = url.match(/[-\w]{25,}/);
@@ -111,7 +112,7 @@ const getGoogleDriveImage = (url: string) => {
   return url;
 };
 
-const openGoogleMap = (query: string) => {
+const openGoogleMap = (query) => {
   window.open(
     `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
       query
@@ -121,7 +122,7 @@ const openGoogleMap = (query: string) => {
 };
 
 // 圖示渲染函式
-const renderWeatherIcon = (iconName: string) => {
+const renderWeatherIcon = (iconName) => {
   switch (iconName) {
     case "Sun":
       return <Sun className="text-orange-400" size={20} />;
@@ -741,7 +742,7 @@ const TOOLS_INFO = {
 
 // --- UI 元件 ---
 
-const TabButton = ({ active, icon, label, onClick }: any) => (
+const TabButton = ({ active, icon, label, onClick }) => (
   <button
     onClick={onClick}
     className={`flex flex-col items-center justify-center w-full py-3 transition-all duration-300 ${
@@ -753,8 +754,8 @@ const TabButton = ({ active, icon, label, onClick }: any) => (
   </button>
 );
 
-const CategoryIcon = ({ type }: { type: string }) => {
-  const styles: any = {
+const CategoryIcon = ({ type }) => {
+  const styles = {
     transport: "bg-blue-100 text-blue-600",
     hotel: "bg-purple-100 text-purple-600",
     food: "bg-orange-100 text-orange-600",
@@ -762,7 +763,7 @@ const CategoryIcon = ({ type }: { type: string }) => {
     shop: "bg-pink-100 text-pink-600",
   };
 
-  const icons: any = {
+  const icons = {
     transport: <Train size={18} />,
     hotel: <Home size={18} />,
     food: <Coffee size={18} />,
@@ -781,7 +782,7 @@ const CategoryIcon = ({ type }: { type: string }) => {
   );
 };
 
-const PhraseModal = ({ phrase, onClose }: any) => {
+const PhraseModal = ({ phrase, onClose }) => {
   if (!phrase) return null;
 
   return (
@@ -820,7 +821,7 @@ const PhraseModal = ({ phrase, onClose }: any) => {
   );
 };
 
-const ImagePreviewModal = ({ src, onClose }: any) => {
+const ImagePreviewModal = ({ src, onClose }) => {
   if (!src) return null;
   const displaySrc = getGoogleDriveImage(src);
 
@@ -845,7 +846,7 @@ const ImagePreviewModal = ({ src, onClose }: any) => {
   );
 };
 
-const PhraseCategory = ({ category, onPhraseClick }: any) => {
+const PhraseCategory = ({ category, onPhraseClick }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -866,7 +867,7 @@ const PhraseCategory = ({ category, onPhraseClick }: any) => {
 
       {isOpen && (
         <div className="divide-y divide-slate-100">
-          {category.phrases.map((p: any, idx: number) => (
+          {category.phrases.map((p, idx) => (
             <div
               key={idx}
               onClick={() => onPhraseClick(p)}
@@ -904,14 +905,14 @@ const ShoppingListItems = ({
   onEdit,
   setPreviewImage,
   catId,
-}: any) => (
+}) => (
   <div className="space-y-3 mb-4">
     {items.length === 0 && (
       <p className="text-xs text-slate-400 text-center py-4 italic">
         尚無必買項目，請新增
       </p>
     )}
-    {items.map((item: any) => (
+    {items.map((item) => (
       <div
         key={item.id}
         className="flex gap-3 p-3 bg-white border border-slate-100 rounded-xl shadow-sm hover:shadow-md transition-shadow"
@@ -1004,7 +1005,7 @@ const ShoppingInputForm = ({
   onAddShopping,
   isEditing,
   onCancel,
-}: any) => (
+}) => (
   <div
     className={`bg-white p-3 rounded-xl border shadow-sm space-y-2 ${
       isEditing ? "border-orange-200 bg-orange-50" : "border-blue-100"
@@ -1098,7 +1099,7 @@ const StandardChecklistItems = ({
   onDelete,
   onEdit,
   catId,
-}: any) => (
+}) => (
   <div className="p-2">
     {items.length === 0 ? (
       <p className="text-xs text-slate-400 text-center py-4 italic">
@@ -1106,7 +1107,7 @@ const StandardChecklistItems = ({
       </p>
     ) : (
       <ul className="space-y-1 mb-2">
-        {items.map((item: any) => (
+        {items.map((item) => (
           <li
             key={item.id}
             className="group flex items-center gap-3 p-2 hover:bg-slate-50 rounded-lg transition-colors"
@@ -1155,7 +1156,7 @@ const StandardInputForm = ({
   onAdd,
   isEditing,
   onCancel,
-}: any) => (
+}) => (
   <div
     className={`flex gap-2 p-2 pt-0 mt-2 ${
       isEditing ? "bg-orange-50 rounded-lg p-2" : ""
@@ -1205,7 +1206,7 @@ const ChecklistGroup = ({
   setShoppingInput,
   onAddShopping,
   setPreviewImage,
-}: any) => {
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const isShopping =
     cat.id === "shopping" ||
@@ -1213,7 +1214,7 @@ const ChecklistGroup = ({
     cat.id === "shopping_baby";
 
   // 檢查此分類下是否有正在編輯的項目
-  const isEditingThisCat = items.some((item: any) => item.id === editingId);
+  const isEditingThisCat = items.some((item) => item.id === editingId);
 
   // 如果正在編輯此分類的項目，自動展開
   useEffect(() => {
@@ -1238,7 +1239,7 @@ const ChecklistGroup = ({
           </div>
           <h2 className="font-bold text-slate-800">{cat.title}</h2>
           <span className="text-xs bg-slate-200 text-slate-600 px-2 py-0.5 rounded-full ml-2">
-            {items.filter((i: any) => i.checked).length}/{items.length}
+            {items.filter((i) => i.checked).length}/{items.length}
           </span>
         </div>
         {isOpen ? (
@@ -1290,13 +1291,12 @@ const ChecklistGroup = ({
 };
 
 // --- Pocket List View ---
-
-const PocketListView = ({ user }: { user: any }) => {
-  const [items, setItems] = useState<any[]>([]);
+const PocketListView = ({ user }) => {
+  const [items, setItems] = useState([]);
   const [activeFilter, setActiveFilter] = useState("food"); // food, spot, shop
   const [isExpanded, setIsExpanded] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState(null);
+  const [error, setError] = useState(null);
 
   // Form State
   const [name, setName] = useState("");
@@ -1313,9 +1313,8 @@ const PocketListView = ({ user }: { user: any }) => {
     { id: "shop", label: "逛街", icon: <ShoppingBag size={16} /> },
   ];
 
-  // Sync from Firebase (OLD PATH: pocket_items)
+  // Sync from Firebase
   useEffect(() => {
-    // 只有當使用者已登入 (user 存在) 時才執行查詢，避免權限錯誤
     if (!user) return;
 
     const q = query(collection(db, 'pocket_items'));
@@ -1330,7 +1329,6 @@ const PocketListView = ({ user }: { user: any }) => {
       },
       (err) => {
         console.error("Snapshot error:", err);
-        // 設定錯誤訊息，讓 UI 顯示
         if (err.code === 'permission-denied') {
           setError("permission-denied");
         } else {
@@ -1339,7 +1337,7 @@ const PocketListView = ({ user }: { user: any }) => {
       }
     );
     return () => unsubscribe();
-  }, [user]); // 加入 user 作為依賴
+  }, [user]);
 
   // Sort Items by Station
   const sortedItems = useMemo(() => {
@@ -1350,7 +1348,7 @@ const PocketListView = ({ user }: { user: any }) => {
       );
   }, [items, activeFilter]);
 
-  const startEditing = (item: any) => {
+  const startEditing = (item) => {
     setEditingId(item.id);
     setName(item.name);
     setHours(item.hours || "");
@@ -1360,7 +1358,6 @@ const PocketListView = ({ user }: { user: any }) => {
     setImage(item.image || "");
     setShowImage(item.showImage !== undefined ? item.showImage : true);
 
-    // 切換到該項目的分類，避免編輯時找不到
     setActiveFilter(item.type);
     setIsExpanded(true);
   };
@@ -1381,7 +1378,6 @@ const PocketListView = ({ user }: { user: any }) => {
     if (!name || !station) return;
 
     if (editingId) {
-      // Update existing item
       const itemRef = doc(db, 'pocket_items', editingId);
       await updateDoc(itemRef, {
         name,
@@ -1390,11 +1386,9 @@ const PocketListView = ({ user }: { user: any }) => {
         station,
         tips,
         image,
-        // 類型通常不改，若要改需另外處理，這邊假設在同分類下編輯
       });
       setEditingId(null);
     } else {
-      // Add new item
       await addDoc(collection(db, 'pocket_items'), {
         type: activeFilter,
         name,
@@ -1408,7 +1402,6 @@ const PocketListView = ({ user }: { user: any }) => {
       });
     }
 
-    // Reset form
     setName("");
     setHours("");
     setClosed("");
@@ -1419,18 +1412,18 @@ const PocketListView = ({ user }: { user: any }) => {
     setIsExpanded(false);
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id) => {
     if (window.confirm("確定要刪除這個口袋名單嗎？")) {
       await deleteDoc(doc(db, 'pocket_items', id));
     }
   };
 
-  const toggleImageVisibility = async (id: string, currentStatus: boolean) => {
+  const toggleImageVisibility = async (id, currentStatus) => {
     const itemRef = doc(db, 'pocket_items', id);
     await updateDoc(itemRef, { showImage: !currentStatus });
   };
 
-  const searchGoogleImages = (query: string) => {
+  const searchGoogleImages = (query) => {
     window.open(
       `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(query)}`,
       "_blank"
@@ -1438,7 +1431,6 @@ const PocketListView = ({ user }: { user: any }) => {
   };
 
   return (
-    // 移除 pb-24，只保留基本的 p-4，讓高度自動填滿父容器
     <div className="p-4 space-y-4 animate-fade-in h-full flex flex-col">
       <h1 className="text-2xl font-bold text-slate-800 mb-2">口袋名單</h1>
 
@@ -1456,7 +1448,7 @@ const PocketListView = ({ user }: { user: any }) => {
             key={f.id}
             onClick={() => {
               setActiveFilter(f.id);
-              cancelEditing(); // 切換頁籤時取消編輯狀態
+              cancelEditing();
             }}
             className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-bold transition-all ${
               activeFilter === f.id
@@ -1469,7 +1461,7 @@ const PocketListView = ({ user }: { user: any }) => {
         ))}
       </div>
 
-      {/* Add/Edit Form (Collapsible) */}
+      {/* Add/Edit Form */}
       <div
         className={`bg-white rounded-xl border shadow-sm overflow-hidden shrink-0 ${
           editingId
@@ -1479,7 +1471,7 @@ const PocketListView = ({ user }: { user: any }) => {
       >
         <button
           onClick={() => {
-            if (editingId) return; // 編輯中不允許收合
+            if (editingId) return;
             setIsExpanded(!isExpanded);
           }}
           className={`w-full flex items-center justify-between p-3 transition-colors ${
@@ -1500,7 +1492,8 @@ const PocketListView = ({ user }: { user: any }) => {
 
         {isExpanded && (
           <div className="p-4 space-y-3 bg-white">
-            <div className="grid grid-cols-2 gap-3">
+            {/* Form Fields ... (truncated for brevity, logic same as before) */}
+             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
                 <label className="text-xs font-bold text-slate-400">
                   名稱 (必填)
@@ -1670,7 +1663,7 @@ const PocketListView = ({ user }: { user: any }) => {
                       src={item.image}
                       alt={item.name}
                       className="w-full h-40 object-cover rounded-lg"
-                      onError={(e: any) => (e.target.style.display = "none")}
+                      onError={(e) => (e.target.style.display = "none")}
                     />
                   )}
                   <button
@@ -1721,14 +1714,13 @@ const PocketListView = ({ user }: { user: any }) => {
 // --- Weather Forecast Component ---
 
 const WeatherForecast = () => {
-  const [forecast, setForecast] = useState<any[]>([]);
+  const [forecast, setForecast] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        // Fetch 5 days forecast for Fukuoka
         const res = await fetch(
           "https://api.open-meteo.com/v1/forecast?latitude=33.5902&longitude=130.4017&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Asia%2FTokyo&forecast_days=5"
         );
@@ -1738,7 +1730,7 @@ const WeatherForecast = () => {
         const data = await res.json();
         const daily = data.daily;
 
-        const formattedData = daily.time.map((time: any, index: number) => ({
+        const formattedData = daily.time.map((time, index) => ({
           date: time,
           code: daily.weather_code[index],
           max: Math.round(daily.temperature_2m_max[index]),
@@ -1757,26 +1749,17 @@ const WeatherForecast = () => {
     fetchWeather();
   }, []);
 
-  // Helper to get weather icon from WMO code
-  const getWeatherIcon = (code: number) => {
-    // 0: Clear sky
+  const getWeatherIcon = (code) => {
     if (code === 0) return <Sun className="text-orange-500" size={24} />;
-    // 1, 2, 3: Mainly clear, partly cloudy, and overcast
     if (code <= 3) return <Cloud className="text-gray-500" size={24} />;
-    // 45, 48: Fog
     if (code <= 48) return <Cloud className="text-slate-400" size={24} />;
-    // 51-67: Drizzle, Rain
     if (code <= 67) return <CloudRain className="text-blue-500" size={24} />;
-    // 71-77: Snow
-    if (code <= 77) return <Umbrella className="text-cyan-500" size={24} />; // Use Umbrella for snow/bad weather fallback
-    // 80-82: Rain showers
+    if (code <= 77) return <Umbrella className="text-cyan-500" size={24} />;
     if (code <= 82) return <CloudRain className="text-blue-600" size={24} />;
-    // 95-99: Thunderstorm
     return <CloudRain className="text-purple-500" size={24} />;
   };
 
-  // Helper to format date (YYYY-MM-DD -> MM/DD)
-  const formatDate = (dateStr: string) => {
+  const formatDate = (dateStr) => {
     const date = new Date(dateStr);
     return `${date.getMonth() + 1}/${date.getDate()}`;
   };
@@ -1800,8 +1783,7 @@ const WeatherForecast = () => {
 
       <div className="flex justify-between divide-x divide-slate-100">
         {loading
-          ? // Skeleton loader
-            [...Array(5)].map((_, i) => (
+          ? [...Array(5)].map((_, i) => (
               <div
                 key={i}
                 className="flex-1 p-3 flex flex-col items-center gap-2 animate-pulse"
@@ -1832,20 +1814,17 @@ const WeatherForecast = () => {
 };
 
 // --- Preparation View ---
-const PreparationView = ({ user }: { user: any }) => {
-  const [items, setItems] = useState<any[]>([]);
-  const [inputStates, setInputStates] = useState<any>({});
-  const [shoppingInputStates, setShoppingInputStates] = useState<any>({});
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+const PreparationView = ({ user }) => {
+  const [items, setItems] = useState([]);
+  const [inputStates, setInputStates] = useState({});
+  const [shoppingInputStates, setShoppingInputStates] = useState({});
+  const [previewImage, setPreviewImage] = useState(null);
+  const [editingId, setEditingId] = useState(null);
+  const [error, setError] = useState(null);
 
-  // SHARED DATA: checklist_items (OLD PATH)
   useEffect(() => {
-    // 只有當使用者已登入 (user 存在) 時才執行查詢
     if (!user) return;
 
-    // 修正：改回讀取根目錄的 'checklist_items'
     const q = query(collection(db, 'checklist_items'));
     const unsubscribe = onSnapshot(q, 
       (snapshot) => {
@@ -1866,7 +1845,7 @@ const PreparationView = ({ user }: { user: any }) => {
       }
     );
     return () => unsubscribe();
-  }, [user]); // 加入 user 作為依賴
+  }, [user]);
 
   const categories = [
     { id: "tickets", title: "門票預約 (出發前)", icon: <Ticket size={18} /> },
@@ -1892,19 +1871,19 @@ const PreparationView = ({ user }: { user: any }) => {
     },
   ];
 
-  const toggleItem = async (itemId: string, currentStatus: boolean) => {
+  const toggleItem = async (itemId, currentStatus) => {
     const itemRef = doc(db, 'checklist_items', itemId);
     await updateDoc(itemRef, { checked: !currentStatus });
   };
 
-  const deleteItem = async (itemId: string) => {
+  const deleteItem = async (itemId) => {
     await deleteDoc(doc(db, 'checklist_items', itemId));
   };
 
-  const startEditing = (catId: string, item: any) => {
+  const startEditing = (catId, item) => {
     setEditingId(item.id);
     if (catId.startsWith("shopping")) {
-      setShoppingInputStates((prev: any) => ({
+      setShoppingInputStates((prev) => ({
         ...prev,
         [catId]: {
           text: item.text,
@@ -1914,7 +1893,7 @@ const PreparationView = ({ user }: { user: any }) => {
         },
       }));
     } else {
-      setInputStates((prev: any) => ({
+      setInputStates((prev) => ({
         ...prev,
         [catId]: item.text,
       }));
@@ -1927,7 +1906,7 @@ const PreparationView = ({ user }: { user: any }) => {
     setShoppingInputStates({});
   };
 
-  const addItem = async (catId: string) => {
+  const addItem = async (catId) => {
     const text = inputStates[catId]?.trim();
     if (!text) return;
 
@@ -1942,10 +1921,10 @@ const PreparationView = ({ user }: { user: any }) => {
         checked: false,
       });
     }
-    setInputStates((prev: any) => ({ ...prev, [catId]: "" }));
+    setInputStates((prev) => ({ ...prev, [catId]: "" }));
   };
 
-  const addShoppingItem = async (catId: string) => {
+  const addShoppingItem = async (catId) => {
     const input = shoppingInputStates[catId];
     if (!input || !input.text.trim()) return;
 
@@ -1968,7 +1947,7 @@ const PreparationView = ({ user }: { user: any }) => {
         checked: false,
       });
     }
-    setShoppingInputStates((prev: any) => ({
+    setShoppingInputStates((prev) => ({
       ...prev,
       [catId]: { text: "", location: "", image: "", priority: "高" },
     }));
@@ -2013,7 +1992,7 @@ const PreparationView = ({ user }: { user: any }) => {
             cat={cat}
             items={sortedItems}
             inputValue={inputStates[cat.id]}
-            onInputChange={(e: any) =>
+            onInputChange={(e) =>
               setInputStates({ ...inputStates, [cat.id]: e.target.value })
             }
             onAdd={addItem}
@@ -2025,8 +2004,8 @@ const PreparationView = ({ user }: { user: any }) => {
             shoppingInput={
               cat.id.startsWith("shopping") ? shoppingInputStates[cat.id] : null
             }
-            setShoppingInput={(newState: any) =>
-              setShoppingInputStates((prev: any) => ({
+            setShoppingInput={(newState) =>
+              setShoppingInputStates((prev) => ({
                 ...prev,
                 [cat.id]: { ...prev[cat.id], ...newState },
               }))
@@ -2047,7 +2026,7 @@ const ActivityItem = ({
   totalItems,
   expandedAlternatives,
   toggleAlternative,
-}: any) => (
+}) => (
   <div key={idx} className="flex gap-4 relative">
     {idx !== totalItems - 1 && (
       <div className="absolute left-[19px] top-12 bottom-[-24px] w-[2px] bg-slate-100"></div>
@@ -2095,7 +2074,6 @@ const ActivityItem = ({
         </div>
       )}
 
-      {/* 替代方案區塊 */}
       {item.alternatives && item.alternatives.length > 0 && (
         <div className="border-t border-slate-100 pt-2">
           <button
@@ -2112,7 +2090,7 @@ const ActivityItem = ({
 
           {expandedAlternatives[idx] && (
             <div className="mt-2 space-y-2 pl-2 border-l-2 border-purple-100">
-              {item.alternatives.map((alt: any, altIdx: number) => (
+              {item.alternatives.map((alt, altIdx) => (
                 <div key={altIdx} className="bg-purple-50/50 p-2 rounded-lg">
                   <div className="flex justify-between items-start mb-1">
                     <div className="flex items-center gap-1.5">
@@ -2154,12 +2132,12 @@ const ActivityItem = ({
   </div>
 );
 
-const ItineraryView = ({ selectedDay, setSelectedDay }: any) => {
+const ItineraryView = ({ selectedDay, setSelectedDay }) => {
   const dayData = ITINERARY.find((d) => d.day === selectedDay) || ITINERARY[0];
-  const [expandedAlternatives, setExpandedAlternatives] = useState<any>({});
+  const [expandedAlternatives, setExpandedAlternatives] = useState({});
 
-  const toggleAlternative = (index: number) => {
-    setExpandedAlternatives((prev: any) => ({
+  const toggleAlternative = (index) => {
+    setExpandedAlternatives((prev) => ({
       ...prev,
       [index]: !prev[index],
     }));
@@ -2230,7 +2208,6 @@ const ItineraryView = ({ selectedDay, setSelectedDay }: any) => {
         </div>
       </div>
 
-      {/* 正常顯示模式 (單日) */}
       <div className="px-4 py-4 space-y-6">
         {dayData.activities.map((item, idx) => (
           <ActivityItem
@@ -2247,6 +2224,37 @@ const ItineraryView = ({ selectedDay, setSelectedDay }: any) => {
   );
 };
 
+// --- New Reusable Collapsible Component ---
+const CollapsibleSection = ({ title, icon: Icon, children, defaultOpen = false, className = "" }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <div className={`bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden ${className}`}>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-full flex items-center justify-between p-4 transition-colors ${
+            isOpen ? "bg-slate-50 border-b border-slate-100" : "bg-white hover:bg-slate-50"
+        }`}
+      >
+        <h2 className="text-sm font-bold text-slate-600 uppercase tracking-wider flex items-center gap-2">
+          {Icon && <Icon size={16} className="text-slate-400" />} {title}
+        </h2>
+        {isOpen ? (
+          <ChevronUp size={18} className="text-slate-400" />
+        ) : (
+          <ChevronDown size={18} className="text-slate-400" />
+        )}
+      </button>
+      
+      {isOpen && (
+        <div className="animate-fade-in">
+           {children}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const ToolsView = () => {
   const [modalPhrase, setModalPhrase] = useState(null);
 
@@ -2254,7 +2262,7 @@ const ToolsView = () => {
     <div className="p-4 pb-24 space-y-6 animate-fade-in relative">
       <h1 className="text-2xl font-bold text-slate-800 mb-4">旅行工具箱</h1>
 
-      {/* Weather Forecast */}
+      {/* Weather Forecast (Always Visible) */}
       <WeatherForecast />
 
       {modalPhrase && (
@@ -2264,17 +2272,15 @@ const ToolsView = () => {
         />
       )}
 
-      <section>
-        <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-          <Plane size={14} /> 航班資訊
-        </h2>
-        <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+      {/* Flight Info */}
+      <CollapsibleSection title="航班資訊" icon={Plane} defaultOpen={false}>
+        <div className="space-y-4 pt-4 px-4 pb-4">
           {["outbound", "inbound"].map((type) => (
             <div
               key={type}
-              className={`p-4 ${
+              className={`p-4 rounded-xl border border-slate-100 bg-white ${
                 type === "inbound"
-                  ? "border-t border-dashed border-slate-200"
+                  ? "border-t border-dashed border-slate-200 mt-2"
                   : ""
               }`}
             >
@@ -2289,7 +2295,6 @@ const ToolsView = () => {
                   {type === "outbound" ? "去程" : "回程"}
                 </span>
                 <span className="text-xs text-slate-400">
-                  {/* @ts-ignore */}
                   {TRIP_INFO.flight[type].duration}
                 </span>
               </div>
@@ -2297,11 +2302,9 @@ const ToolsView = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <div className="text-2xl font-mono font-bold text-slate-800 mb-1">
-                    {/* @ts-ignore */}
                     {TRIP_INFO.flight[type].code}
                   </div>
                   <div className="text-xs text-slate-500">
-                    {/* @ts-ignore */}
                     {TRIP_INFO.flight[type].airline}
                   </div>
                 </div>
@@ -2309,20 +2312,16 @@ const ToolsView = () => {
                 <div className="flex flex-col gap-2 text-right">
                   <div>
                     <div className="text-base font-bold text-slate-800">
-                      {/* @ts-ignore */}
                       {TRIP_INFO.flight[type].dep.split(" ")[0]}{" "}
                       <span className="text-xs font-normal text-slate-500">
-                        {/* @ts-ignore */}
                         {TRIP_INFO.flight[type].dep.split(" ")[1]}
                       </span>
                     </div>
                   </div>
                   <div>
                     <div className="text-base font-bold text-slate-800">
-                      {/* @ts-ignore */}
                       {TRIP_INFO.flight[type].arr.split(" ")[0]}{" "}
                       <span className="text-xs font-normal text-slate-500">
-                        {/* @ts-ignore */}
                         {TRIP_INFO.flight[type].arr.split(" ")[1]}
                       </span>
                     </div>
@@ -2332,15 +2331,13 @@ const ToolsView = () => {
             </div>
           ))}
         </div>
-      </section>
+      </CollapsibleSection>
 
-      <section>
-        <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-          <Bus size={14} /> 機場交通
-        </h2>
-        <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden p-4 space-y-4">
+      {/* Transport Info */}
+      <CollapsibleSection title="機場交通" icon={Bus} defaultOpen={false}>
+         <div className="p-4 space-y-4">
           {/* Day 1 Special */}
-          <div className="bg-orange-50 -m-4 p-4 mb-4 border-b border-orange-100">
+          <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
             <h3 className="font-bold text-orange-800 mb-2 flex items-center gap-2">
               <span className="bg-orange-200 text-orange-800 px-2 py-0.5 rounded text-xs">
                 Day 1 首選
@@ -2458,13 +2455,11 @@ const ToolsView = () => {
             </div>
           </div>
         </div>
-      </section>
+      </CollapsibleSection>
 
-      <section>
-        <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-          <Home size={14} /> 住宿資訊
-        </h2>
-        <div className="bg-white rounded-xl shadow-sm border border-slate-100 p-4">
+      {/* Hotel Info */}
+      <CollapsibleSection title="住宿資訊" icon={Home} defaultOpen={false}>
+        <div className="p-4">
           <h3 className="font-bold text-lg text-slate-800">
             {TRIP_INFO.hotel.name}
           </h3>
@@ -2486,13 +2481,97 @@ const ToolsView = () => {
             </div>
           </div>
         </div>
-      </section>
+      </CollapsibleSection>
 
-      <section>
-        <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-          <Languages size={14} /> 實用日語手指書 (點擊放大)
-        </h2>
-        <div className="space-y-3">
+      {/* Kitchenware Buying Guide */}
+      <CollapsibleSection title="廚房用品購買指南" icon={Utensils} defaultOpen={false}>
+        <div className="p-4 space-y-4">
+          {/* AMU PLAZA */}
+          <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
+            <h3 className="font-bold text-slate-800 text-lg mb-2 flex items-center justify-between">
+              A. 【AMU PLAZA】
+              <span className="text-[10px] font-normal bg-slate-100 text-slate-500 px-2 py-1 rounded">
+                退稅：2F/4F 櫃台 (需收1.55%手續費)
+              </span>
+            </h3>
+            
+            <div className="space-y-4">
+              <div>
+                 <h4 className="font-bold text-slate-700 text-sm mb-1 bg-slate-50 inline-block px-2 rounded">1F 中川政七商店</h4>
+                 <p className="text-xs text-slate-600 mb-1">專門選自日本各地的職人工藝。</p>
+                 <ul className="list-disc list-inside text-xs text-slate-500 pl-1 space-y-0.5">
+                   <li>燕三條產不鏽鋼叉匙、奶油刀</li>
+                   <li><strong className="text-slate-700">鋁製導熱奶油匙</strong> (利用手溫融化奶油)</li>
+                   <li>奈良產花織家事布 (吸水強、不留棉絮)</li>
+                 </ul>
+              </div>
+
+              <div>
+                 <h4 className="font-bold text-slate-700 text-sm mb-1 bg-slate-50 inline-block px-2 rounded">4F Tokyu Hands (東急手創館)</h4>
+                 <div className="space-y-2 mt-1">
+                   {[
+                     { title: "柳宗理", desc: "完整專區 (調理盆、漏盆、刀叉匙)，貨源穩定。" },
+                     { title: "富士琺瑯", desc: "款式多 (純白、北歐風、聯名款)。" },
+                     { title: "燕三條 (Made in TSUBAME)", desc: "LUCKYWOOD (皇室用)、燕振興工業 (人體工學)、下村企販 (不鏽鋼量杯、炸物濾油盤)。" },
+                     { title: "貝印 (KAI)", desc: "日本動植物造型模具 (適合做寶寶餅乾/飯糰)。" },
+                     { title: "Aux (Leyeye)", desc: "細緻磨泥器 (蒜/薑)、指尖夾 (炸物/翻面好用)。" },
+                     { title: "Lekue / 矽膠系列", desc: "日本限定精緻矽膠烘焙墊、微波調理盒。" },
+                     { title: "龜之子刷 (Kamenoko)", desc: "海綿 (Kamenoko Sponge)，排水強、不易發霉、質感色系。" },
+                     { title: "倉敷意匠", desc: "雜貨感牙籤盒、調味料罐。" }
+                   ].map((item, i) => (
+                     <div key={i} className="text-xs text-slate-600 pl-2 border-l-2 border-slate-100">
+                       <span className="font-bold text-slate-700">{i+1}. {item.title}：</span>
+                       {item.desc}
+                     </div>
+                   ))}
+                 </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Yodobashi */}
+          <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
+            <h3 className="font-bold text-slate-800 text-lg mb-2 flex items-center justify-between">
+              B. 【Yodobashi】
+              <span className="text-[10px] font-normal bg-slate-100 text-slate-500 px-2 py-1 rounded">
+                退稅：結帳出示護照 (直扣10%)
+              </span>
+            </h3>
+            <div>
+               <h4 className="font-bold text-slate-700 text-sm mb-1 bg-slate-50 inline-block px-2 rounded">3F 家電百貨區</h4>
+               <ul className="list-disc list-inside text-xs text-slate-500 pl-1 space-y-0.5">
+                 <li>燕三條 (Tsubame-Sanjo)</li>
+                 <li>富士琺瑯</li>
+               </ul>
+            </div>
+          </div>
+        </div>
+      </CollapsibleSection>
+
+      {/* Strawberry Buying Guide */}
+      <CollapsibleSection title="草莓購買指南" icon={ShoppingBag} defaultOpen={false}>
+         <div className="p-4 space-y-3">
+           {[
+             { name: "栃木縣 とちあいか (Tochiaika)", desc: "價格品質範圍大，但只要「整顆紅透、接近蒂頭處沒有白」就保證好吃。", color: "border-red-100 bg-red-50" },
+             { name: "埼玉縣 あまりん (Amarin)", desc: "貴是缺點，但連續獲金獎，幾乎不踩雷。", color: "border-pink-100 bg-pink-50" },
+             { name: "福岡草莓 あまおう (Amaou)", desc: "福岡代表！非常大顆且甜。", color: "border-rose-100 bg-rose-50" },
+           ].map((berry, i) => (
+             <div key={i} className={`p-3 rounded-xl border ${berry.color} flex gap-3 items-start`}>
+               <div className="bg-white/50 w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs font-bold text-red-400">
+                 {i+1}
+               </div>
+               <div>
+                 <h4 className="font-bold text-slate-800 text-sm">{berry.name}</h4>
+                 <p className="text-xs text-slate-600 mt-1 leading-relaxed">{berry.desc}</p>
+               </div>
+             </div>
+           ))}
+         </div>
+      </CollapsibleSection>
+
+      {/* Japanese Phrases */}
+      <CollapsibleSection title="實用日語手指書 (點擊放大)" icon={Languages} defaultOpen={false}>
+         <div className="p-4 space-y-3">
           {JAPANESE_PHRASES.map((cat, idx) => (
             <PhraseCategory
               key={idx}
@@ -2501,13 +2580,11 @@ const ToolsView = () => {
             />
           ))}
         </div>
-      </section>
+      </CollapsibleSection>
 
-      <section>
-        <h2 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-2">
-          <Baby size={14} /> 新手爸媽防呆指南
-        </h2>
-        <div className="space-y-3">
+      {/* Parent Guide */}
+      <CollapsibleSection title="新手爸媽防呆指南" icon={Baby} defaultOpen={false}>
+        <div className="p-4 space-y-3">
           <div className="bg-amber-50 p-4 rounded-xl border border-amber-100 flex gap-3">
             <Heart className="text-amber-500 shrink-0 mt-0.5" size={18} />
             <div>
@@ -2582,31 +2659,34 @@ const ToolsView = () => {
             </div>
           </div>
         </div>
-      </section>
+      </CollapsibleSection>
 
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
-          <h3 className="text-blue-800 font-bold text-sm mb-1 flex items-center gap-1">
-            <Shirt size={14} /> 穿著建議
-          </h3>
-          <p className="text-xs text-blue-700 leading-relaxed">
-            {TOOLS_INFO.clothing[0].val}
-          </p>
+      {/* Tips & Emergency */}
+      <CollapsibleSection title="貼心小叮嚀" icon={Info} defaultOpen={false}>
+        <div className="grid grid-cols-2 gap-4 p-4">
+            <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+            <h3 className="text-blue-800 font-bold text-sm mb-1 flex items-center gap-1">
+                <Shirt size={14} /> 穿著建議
+            </h3>
+            <p className="text-xs text-blue-700 leading-relaxed">
+                {TOOLS_INFO.clothing[0].val}
+            </p>
+            </div>
+            <div className="bg-red-50 p-4 rounded-xl border border-red-100">
+            <h3 className="text-red-800 font-bold text-sm mb-1 flex items-center gap-1">
+                <Phone size={14} /> 緊急聯絡
+            </h3>
+            <p className="text-xs text-red-700">救護車: 119</p>
+            <p className="text-xs text-red-700">警察局: 110</p>
+            </div>
         </div>
-        <div className="bg-red-50 p-4 rounded-xl border border-red-100">
-          <h3 className="text-red-800 font-bold text-sm mb-1 flex items-center gap-1">
-            <Phone size={14} /> 緊急聯絡
-          </h3>
-          <p className="text-xs text-red-700">救護車: 119</p>
-          <p className="text-xs text-red-700">警察局: 110</p>
-        </div>
-      </div>
+      </CollapsibleSection>
     </div>
   );
 };
 
-const BudgetView = ({ user }: { user: any }) => {
-  const [items, setItems] = useState<any[]>([]);
+const BudgetView = ({ user }) => {
+  const [items, setItems] = useState([]);
   const [inputTitle, setInputTitle] = useState("");
   const [inputAmount, setInputAmount] = useState("");
   const [inputType, setInputType] = useState("food");
@@ -2614,14 +2694,11 @@ const BudgetView = ({ user }: { user: any }) => {
   const [inputCurrency, setInputCurrency] = useState("JPY");
   const [selectedDateFilter, setSelectedDateFilter] = useState("all");
   const [inputDate, setInputDate] = useState("2026/2/22 (日)");
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(null);
 
-  // SHARED DATA: budget_items (OLD PATH)
   useEffect(() => {
-    // 只有當使用者已登入 (user 存在) 時才執行查詢
     if (!user) return;
 
-    // 修正：改回讀取根目錄的 'budget_items'
     const q = query(collection(db, 'budget_items'), orderBy("date"));
     const unsubscribe = onSnapshot(q, 
       (snapshot) => {
@@ -2642,7 +2719,7 @@ const BudgetView = ({ user }: { user: any }) => {
       }
     );
     return () => unsubscribe();
-  }, [user]); // 加入 user 作為依賴
+  }, [user]);
 
   const dateOptions = useMemo(
     () => [
@@ -2668,7 +2745,7 @@ const BudgetView = ({ user }: { user: any }) => {
     return sum + finalAmount;
   }, 0);
 
-  const addItem = async (e: any) => {
+  const addItem = async (e) => {
     e.preventDefault();
     if (!inputTitle || !inputAmount || !inputPayer) return;
 
@@ -2689,11 +2766,11 @@ const BudgetView = ({ user }: { user: any }) => {
     setInputPayer("");
   };
 
-  const deleteItem = async (id: string) => {
+  const deleteItem = async (id) => {
     await deleteDoc(doc(db, 'budget_items', id));
   };
 
-  const typeColors: any = {
+  const typeColors = {
     pre: "bg-gray-100 text-gray-600",
     food: "bg-orange-100 text-orange-600",
     transport: "bg-blue-100 text-blue-600",
@@ -2702,7 +2779,7 @@ const BudgetView = ({ user }: { user: any }) => {
     other: "bg-slate-100 text-slate-600",
   };
 
-  const typeLabels: any = {
+  const typeLabels = {
     pre: "準備",
     food: "飲食",
     transport: "交通",
@@ -2945,15 +3022,14 @@ const BudgetView = ({ user }: { user: any }) => {
 const App = () => {
   const [activeTab, setActiveTab] = useState("itinerary");
   const [selectedDay, setSelectedDay] = useState(1);
-  const [user, setUser] = useState<any>(null);
-  const [authError, setAuthError] = useState<string | null>(null);
+  const [user, setUser] = useState(null);
+  const [authError, setAuthError] = useState(null);
 
-  // AUTH LOGIC: 啟動時自動匿名登入，無需使用者介入
   useEffect(() => {
     const initAuth = async () => {
       try {
         await signInAnonymously(auth);
-      } catch (err: any) {
+      } catch (err) {
         console.error("Auth failed", err);
         setAuthError(err.message);
       }
@@ -2965,7 +3041,6 @@ const App = () => {
     });
   }, []);
 
-  // 如果 Firebase 連線失敗 (網域沒加入白名單)，顯示錯誤提示
   if (authError) {
     return (
       <div className="h-[100dvh] bg-slate-50 flex items-center justify-center flex-col gap-3 p-4 text-center">
@@ -2979,7 +3054,6 @@ const App = () => {
     );
   }
 
-  // 如果還沒登入完成 (user is null)，顯示載入畫面
   if (!user) {
     return (
       <div className="h-[100dvh] bg-slate-50 flex items-center justify-center flex-col gap-3">
