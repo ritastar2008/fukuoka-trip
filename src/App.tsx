@@ -205,6 +205,16 @@ const JAPANESE_PHRASES = [
   {
     name: "🚕 交通 & 計程車",
     phrases: [
+       {
+        c_text: "回 Richmond 飯店 (筑紫口)",
+        j_text: "リッチモンドホテル博多駅前（筑紫口側）までお願いします。",
+        j_reading: "Ricchimondo Hoteru Hakata Ekimae (Chikushiguchi-gawa) made onegai shimasu.",
+      },
+      {
+        c_text: "去 LaLaport (鋼彈下車)",
+        j_text: "ららぽーと福岡までお願いします。\nガンダムの近くで降ろしてください。",
+        j_reading: "Rarapōto Fukuoka made onegai shimasu. Gandamu no chikaku de oroshite kudasai.",
+      },
       {
         c_text: "去動植物園「正門」",
         j_text: "福岡市動植物園の「正門」までお願いします。",
