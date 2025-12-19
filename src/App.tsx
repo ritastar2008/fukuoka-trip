@@ -51,7 +51,9 @@ import {
   LayoutGrid,
   List,
   AlertCircle,
-  ShieldAlert
+  ShieldAlert,
+  Bell,
+  Car
 } from "lucide-react";
 
 // --- Firebase 導入 ---
@@ -201,17 +203,52 @@ const PARENT_GUIDE = {
 
 const JAPANESE_PHRASES = [
   {
+    name: "🚕 交通 & 計程車",
+    phrases: [
+      {
+        c_text: "去動植物園「正門」",
+        j_text: "福岡市動植物園の「正門」までお願いします。",
+        j_reading: "Fukuokashi dōshokubutsuen no seimon made onegai shimasu.",
+      },
+      {
+        c_text: "去福岡機場「國內線」",
+        j_text: "福岡空港の「国内線」ターミナルまでお願いします。",
+        j_reading: "Fukuoka kūkō no kokunaisen tāminaru made onegai shimasu.",
+      },
+      {
+        c_text: "請載我去這裡 (指地圖)",
+        j_text: "ここに行ってください。",
+        j_reading: "Koko ni itte kudasai.",
+      },
+    ],
+  },
+  {
     name: "🍽️ 餐廳需求",
     phrases: [
       {
+        c_text: "有剪副食品的剪刀嗎？",
+        j_text: "離乳食用のハサミがありますか？",
+        j_reading: "Rinyūshoku yō no hasami ga arimasu ka?",
+      },
+      {
+        c_text: "想跟小孩分食(清淡點)",
+        j_text: "子どもと分けたいので、薄味のものがいいです。",
+        j_reading: "Kodomo to waketai node, usuaji no mono ga ii desu.",
+      },
+      {
+        c_text: "這道菜味道很重(鹹)嗎？",
+        j_text: "このおかず、味は濃いですか？",
+        j_reading: "Kono okazu, aji wa koi desu ka?",
+      },
+      {
         c_text: "有兒童椅嗎？",
         j_text: "子供用の椅子はありますか？",
-        j_reading: "Kodomo you no isu wa arimasu ka?",
+        j_reading: "Kodomo yō no isu wa arimasu ka?",
       },
       {
         c_text: "請給我兒童餐具",
         j_text: "子供用のカトラリーをお願いします。",
-        j_reading: "Kodomo you no katorarī o onegai shimasu.",
+        j_reading: "Kodomo yō no katorarī o onegai shimasu.",
       },
       {
         c_text: "幫我微波副食品",
@@ -226,17 +263,7 @@ const JAPANESE_PHRASES = [
       {
         c_text: "請不要加辣",
         j_text: "辛くしないでください。",
-        j_reading: "Karuku shinai de kudasai.",
-      },
-      {
-        c_text: "請不要加芥末",
-        j_text: "わさびを抜いてください。",
-        j_reading: "Wasabi o nuite kudasai.",
-      },
-      {
-        c_text: "請給我少一點鹽 (少鹹)",
-        j_text: "塩を少なめにしてください。",
-        j_reading: "Shio o sukuname ni shite kudasai.",
+        j_reading: "Karuku shinaide kudasai.",
       },
       {
         c_text: "我要結帳",
@@ -281,7 +308,7 @@ const JAPANESE_PHRASES = [
       {
         c_text: "電梯在哪裡？",
         j_text: "エレベーターはどこですか？",
-        j_reading: "Erebetaa wa doko desu ka?",
+        j_reading: "Erebētā wa doko desu ka?",
       },
       {
         c_text: "廁所在哪裡？",
@@ -291,7 +318,7 @@ const JAPANESE_PHRASES = [
       {
         c_text: "可以試穿嗎？",
         j_text: "試着しても良いですか？",
-        j_reading: "Shichaku shite mo ii desu ka?",
+        j_reading: "Shichaku shitemo ii desu ka?",
       },
       {
         c_text: "我要找這個 (指著圖片)",
@@ -311,439 +338,316 @@ const ITINERARY = [
   {
     day: 1,
     date: "2/22 (日)",
-    location: "LaLaport & 市區亂晃",
+    location: "入境 & 博多車站",
+    reminder: "一定要先買好明天中餐、早餐、飲料與零食",
     activities: [
       {
-        time: "11:20",
+        time: "12:15",
         type: "transport",
-        title: "抵達福岡機場",
-        desc: "入境後前往巴士站搭車直達 LaLaport (請參考「資訊」頁面的詳細搭乘指南)。",
-        tips: "巴士位於國際線航廈 1 樓 6、7 號站牌。",
-        mapQuery: "Fukuoka Airport",
-      },
-      {
-        time: "12:00",
-        type: "spot",
-        title: "抵達 LaLaport & 寄放行李",
-        desc: "先寄放行李再輕鬆逛街。館內有多處投幣式置物櫃，亦有支援 IC 卡的櫃位。",
-        tips: "詳細置物櫃位置請參考「資訊」頁面的「新手爸媽防呆指南」。",
-        mapQuery: "LaLaport Fukuoka",
-        alternatives: [],
-      },
-      {
-        time: "12:30",
-        type: "food",
-        title: "午餐：LaLaport 3F 美食街",
-        desc: "首選：炸豬排知青 (TONKATSU CHISEI)。美食街座位多，適合帶小孩。",
-        tips: "3F 也有阿卡將，吃飽可以直接逛。",
-        mapQuery: "LaLaport Fukuoka",
-        alternatives: [
-          {
-            title: "久留米拉麵清陽軒",
-            desc: "3F，可能是 LaLaport 唯一吃得到拉麵的地方。",
-            type: "food",
-            mapQuery: "Kurume Ramen Seiyoken LaLaport Fukuoka",
-          },
-          {
-            title: "UMAYA うまや",
-            desc: "3F，南蠻炸雞、炙燒牛舌，福岡在地定食品牌。",
-            type: "food",
-            mapQuery: "Umaya LaLaport Fukuoka",
-          },
-        ],
-      },
-      {
-        time: "14:00",
-        type: "shop",
-        title: "LaLaport 逛街",
-        desc: "營業時間: 10:00–21:00。1F: 樂高、3COINS、博多通饅頭、如水庵；2F: 玩具反斗城、Loft；3F: 阿卡將；4F: 鋼彈SIDE-F。",
-        tips: "記得去 1F 無印良品外看實體大鋼彈。",
-        mapQuery: "LaLaport Fukuoka",
-        alternatives: [],
-      },
-      {
-        time: "17:00",
-        type: "transport",
-        title: "前往飯店 Check-in",
-        desc: "從 LaLaport 一樓無印良品走出去右轉，有計程車和巴士站。前往博多站前 Richmond 飯店。",
-        tips: "因為有大行李與小孩，建議直接搭計程車 (約2000日圓左右) 比較輕鬆。",
+        title: "抵達 & 寄放行李",
+        desc: "入境後，搭車直達 Richmond 飯店 (博多站前) 寄放行李。",
+        tips: "Richmond Hotel Hakata Ekimae",
         mapQuery: "Richmond Hotel Hakata Ekimae",
       },
       {
-        time: "18:00",
-        type: "shop",
-        title: "Yodobashi 友都八喜",
-        desc: "營業時間: 09:20-22:00。飯店整理後步行前往。採買電器、玩具。",
-        tips: "博多站筑紫口附近。",
-        mapQuery: "Yodobashi Camera Multimedia Hakata",
+        time: "13:30",
+        type: "food",
+        title: "午餐：敘敘苑 (KITTE博多)",
+        desc: "營業時間 11:00-22:00。知名的燒肉午間套餐 (約3000-7000日圓)。",
+        tips: "在高樓層可以看風景，午餐時段CP值最高。",
+        mapQuery: "Jojoen KITTE Hakata",
       },
       {
-        time: "18:30",
-        type: "food",
-        title: "晚餐：超市 (Lopia)",
-        desc: "Yodobashi 4F 的 Lopia 超市，便宜好買，適合買晚餐回飯店吃。",
-        tips: "只收現金，請準備足夠日幣。",
+        time: "14:30",
+        type: "shop",
+        title: "博多車站 / Yodobashi",
+        desc: "博多阪急 7F (寶寶衣服/玩具/育嬰室)、頂樓 RF 燕子電車 (可親子共乘)。",
+        tips: "KITTE 走連通道到 AMU PLAZA，找 AMU 專用電梯到 RF。",
+        mapQuery: "Hakata Station",
+      },
+      {
+        time: "17:15",
+        type: "shop",
+        title: "晚餐採買：Lopia 超市",
+        desc: "位於 Yodobashi 4F。便宜好買，適合買熟食、草莓、優格回飯店吃。",
+        tips: "注意：Lopia 只收現金！(Yodobashi 其他樓層可刷卡)",
         mapQuery: "Lopia Hakata Yodobashi",
-      },
-      {
-        time: "20:00",
-        type: "transport",
-        title: "回飯店休息",
-        desc: "結束第一天行程，儲備體力。",
-        tips: "",
-        mapQuery: "Richmond Hotel Hakata Ekimae",
       },
     ],
   },
   {
     day: 2,
     date: "2/23 (一)",
-    location: "麵包超人兒童博物館 & 川端通商店街",
+    location: "動植物園 (連假)",
+    reminder: "動物園在山上，體感會比博多車站冷。請務必帶上推車防風罩和寶寶的小毛毯",
     activities: [
       {
-        time: "09:08",
-        type: "shop",
-        title: "早餐：博多車站超市",
-        desc: "營業時間: 09:00–21:00。步行8分鐘。採買路上零食或簡單早餐。",
-        tips: "",
+        time: "09:30",
+        type: "food",
+        title: "早餐：飯糰 & 麵包",
+        desc: "「米屋の飯切」或「糸島飯糰」買飯糰，「Trandor」買小餐包給寶寶。",
+        tips: "博多車站內購買。",
         mapQuery: "Hakata Station",
+      },
+      {
+        time: "09:30",
+        type: "transport",
+        title: "前往福岡市動植物園",
+        desc: "適逢連假，首選計程車 (約1500-2000日圓)。博多口左前方有計程車排班。",
+        tips: "備案交通：地鐵七隈線(博多>櫻坂) 或 58號公車。",
+        mapQuery: "Fukuoka City Zoo",
       },
       {
         time: "10:00",
         type: "spot",
-        title: "福岡麵包超人兒童博物館",
-        desc: "營業時間: 10:00-17:00。交通：【地下鐵空港線(紅線) 博多 >> 中洲川端(2站)】，步行7分鐘。位於 Riverain Mall 5F/6F。",
-        tips: "門票建議事先確認，館內有許多互動設施。",
-        mapQuery: "Fukuoka Anpanman Children's Museum in Mall",
+        title: "動物園放電",
+        desc: "從「動物園正門」進。看獅子、大象、長頸鹿。有小火車和旋轉木馬。",
+        tips: "山上較冷，請帶推車防風罩和毛毯。風大可去室內科學館。",
+        mapQuery: "Fukuoka City Zoo",
+      },
+      {
+        time: "12:30",
+        type: "food",
+        title: "午餐：園內餐廳",
+        desc: "在植物園側休息處或動物園餐廳用餐。有兒童餐或烏龍麵 (可剪碎)。",
+        tips: "園內吃最方便，減少移動負擔。",
+        mapQuery: "Fukuoka City Zoo",
       },
       {
         time: "13:30",
-        type: "food",
-        title: "午餐：烤肉 石原牛",
-        desc: "營業時間: 11:00-15:00。交通: 步行2分鐘。",
-        tips: "使用A5級和原牛，特色在細膩的油花以及甜美入口即化的絕佳風味，套餐中午只要1850就有。",
-        mapQuery: "Hakata Yakiniku Ishiharanogyu",
-      },
-      {
-        time: "15:10",
-        type: "food",
-        title: "鈴懸 博多本店",
-        desc: "營業時間: 09:00-19:00。交通: 步行3分鐘。",
-        tips: "福岡知名的和菓子老店。",
-        mapQuery: "Suzukake Hakata Main Shop",
-      },
-      {
-        time: "15:40",
         type: "spot",
-        title: "川端通商店街",
-        desc: "步行前往。福岡最古老的商店街，有許多傳統店鋪。",
-        tips: "有遮雨棚，不用擔心天氣。",
-        mapQuery: "Kawabata Shopping Arcade",
+        title: "植物園 & 午睡",
+        desc: "過天橋到植物園，溫室暖和漂亮。寶寶午睡時大人可喝咖啡休息。",
+        tips: "植物園相對安靜。",
+        mapQuery: "Fukuoka City Botanical Garden",
       },
       {
-        time: "16:30",
-        type: "spot",
-        title: "櫛田神社",
-        desc: "參拜時間: 09:00–17:00。步行4分鐘。博多總鎮守，觀賞巨型山笠。",
-        tips: "可以去摸摸靈泉鶴之井戶。",
-        mapQuery: "Kushida Shrine",
-      },
-      {
-        time: "17:00",
+        time: "15:30",
         type: "shop",
-        title: "MaxValue Express 博多衹園店",
-        desc: "步行3分鐘。24小時營業的超市，可以補貨零食飲料。",
+        title: "返回博多車站逛街",
+        desc: "AMU PLAZA 或 阪急百貨。建議現在先買好伴手禮 (明太子醬等)。",
         tips: "",
-        mapQuery: "MaxValu Express Hakata Gion",
+        mapQuery: "Hakata Station",
       },
       {
-        time: "18:30",
+        time: "18:00",
         type: "food",
-        title: "晚餐：雞肉料理 地雞屋大和",
-        desc: "營業時間: 17:30–00:00。步行前往。福岡知名的地雞料理專門店。",
-        tips: "建議預先訂位。",
-        mapQuery: "Jidoriya Yamato",
-      },
-      {
-        time: "20:30",
-        type: "transport",
-        title: "回飯店休息",
-        desc: "結束今天的行程。",
-        tips: "",
-        mapQuery: "Richmond Hotel Hakata Ekimae",
+        title: "晚餐：濱田屋 (水炊鍋)",
+        desc: "AMU PLAZA 10F。建議 17:15 提早去避開人潮。",
+        tips: "若寶寶太累，可改去阪急 B1 買「古市庵」押壽司回飯店吃。",
+        mapQuery: "Hakata Mizutaki Hamadaya",
+        alternatives: [
+            {
+                title: "古市庵 (阪急B1)",
+                type: "food",
+                desc: "外帶押壽司或飯糰，米飯水準高。",
+                mapQuery: "Koichian Hakata Hankyu"
+            }
+        ]
       },
     ],
   },
   {
     day: 3,
     date: "2/24 (二)",
-    location: "海之中道 & 博多站購物",
+    location: "麵包超人 & 天神",
+    reminder: "博物館內是不能推推車進去，入口處有專門的推車停放區。一定要帶背巾備用。",
     activities: [
       {
-        time: "09:00",
-        type: "hotel",
-        title: "飯店出發",
-        desc: "準備出發前往今天的行程。",
-        tips: "",
-        mapQuery: "Richmond Hotel Hakata Ekimae",
-      },
-      {
-        time: "09:10",
+        time: "08:00",
         type: "food",
-        title: "早餐：Dacomecca 麵包店",
-        desc: "營業時間: 07:00–19:00。步行前往 (約3-5分鐘)。福岡超人氣麵包店，裝潢像廢墟風，麵包非常精緻。",
-        tips: "建議提早排隊，人潮眾多。",
-        mapQuery: "Dacomecca",
+        title: "早餐：客美多咖啡",
+        desc: "博多站東店 (步行4分鐘)。建議 09:30 離開。",
+        tips: "",
+        mapQuery: "Komeda's Coffee Hakata Station East",
       },
       {
         time: "10:00",
         type: "spot",
-        title: "海洋世界海之中道",
-        desc: "營業時間: 09:30-17:30。交通：【JR鹿兒島本線(紅線) 博多 >> 香椎(4站)】轉乘 >> 【JR香椎線(藍線) 香椎 >> 海之中道(4站)】。",
-        tips: "請注意：這是 JR 路線，不是地下鐵。這裡有海豚秀和超大水族箱，非常適合親子。",
-        mapQuery: "Marine World Uminonakamichi",
+        title: "福岡麵包超人博物館",
+        desc: "Riverain Mall 5F/6F。地鐵中洲川端站直結。先衝球池或沙坑。",
+        tips: "館內不能推推車 (入口有停放區)，請帶背巾。",
+        mapQuery: "Fukuoka Anpanman Children's Museum",
+      },
+      {
+        time: "13:30",
+        type: "food",
+        title: "午餐：烤肉 石原牛",
+        desc: "步行2分鐘。平日13:00後上班族午休結束，環境較安靜放鬆。",
+        tips: "A5和牛午間套餐 CP 值高。",
+        mapQuery: "Hakata Yakiniku Ishiharanogyu",
       },
       {
         time: "15:00",
+        type: "spot",
+        title: "川端通商店街 (午睡)",
+        desc: "寶寶午睡，爸媽悠閒逛街喝咖啡。可去「川端紅豆湯廣場」看山笠。",
+        tips: "有遮雨棚，好推車。",
+        mapQuery: "Kawabata Shopping Arcade",
+      },
+      {
+        time: "16:00",
         type: "shop",
-        title: "博多阪急",
-        desc: "營業時間: 10:00-20:00。交通：【JR香椎線(藍線) 海之中道 >> 香椎(4站)】轉乘 >> 【JR鹿兒島本線(紅線) 香椎 >> 博多(4站)】。",
-        tips: "博多車站共構的百貨公司，B1美食街非常精彩。",
-        mapQuery: "Hakata Hankyu",
+        title: "天神地下街",
+        desc: "地鐵至天神站。建議先逛西側 (Salut!, 3COINS, Natural Kitchen)。",
+        tips: "可在歐風休息區吃點心 (RINGO, BAKE, Blue Bottle)。",
+        mapQuery: "Tenjin Underground Shopping Center",
         alternatives: [
-          {
-            title: "10mois",
-            desc: "逛逛母嬰用品(布類，台灣價差大)",
-            type: "shop",
-            mapQuery: "10mois Hakata Hankyu",
-          },
-          {
-            title: "B1F 北野超市（KITANO ACE）",
-            desc: "調味料天堂，必去!",
-            type: "shop",
-            mapQuery: "Kitano Ace Hakata Hankyu",
-          },
-        ],
+            { title: "BOUL'ANGE", type: "food", desc: "可頌麵包", mapQuery: "BOUL'ANGE Fukuoka" },
+            { title: "RINGO", type: "food", desc: "蘋果派", mapQuery: "RINGO Tenjin" },
+            { title: "Blue Bottle", type: "food", desc: "警固神社內", mapQuery: "Blue Bottle Coffee Fukuoka Tenjin" }
+        ]
       },
       {
         time: "18:00",
         type: "food",
-        title: "晚餐：博多車站周邊",
-        desc: "在博多阪急 B1 或博多車站拉麵街享用晚餐。",
-        tips: "",
-        mapQuery: "Hakata Station",
-      },
-      {
-        time: "20:00",
-        type: "transport",
-        title: "回飯店休息",
-        desc: "步行回飯店。",
-        tips: "",
-        mapQuery: "Richmond Hotel Hakata Ekimae",
+        title: "晚餐：Obon de Gohan",
+        desc: "KITTE 博多店。均衡營養日式定食，環境親子友善。",
+        tips: "很多軟糯豆腐和炊飯，適合 1.5 歲寶寶。",
+        mapQuery: "Obon de Gohan KITTE Hakata",
+        alternatives: [
+            { title: "Chicken Man", type: "food", desc: "歐姆蛋飯、烤雞", mapQuery: "Chicken Man Hakata" }
+        ]
       },
     ],
   },
   {
     day: 4,
     date: "2/25 (三)",
-    location: "大濠公園 & 天神購物",
+    location: "海之中道",
+    reminder: "建議在博多車站先買好寶寶的水、果汁或小零食帶在身上。",
     activities: [
       {
-        time: "09:00",
-        type: "hotel",
-        title: "飯店出發",
-        desc: "前往博多車站。",
-        tips: "",
-        mapQuery: "Richmond Hotel Hakata Ekimae",
-      },
-      {
-        time: "09:10",
-        type: "shop",
-        title: "早餐：博多車站超市",
-        desc: "營業時間: 09:00–21:00。步行8分鐘。採買路上零食或簡單早餐。",
-        tips: "",
+        time: "08:30",
+        type: "food",
+        title: "早餐：飯糰 vs 麵包",
+        desc: "博多站買好早午餐，並多買點水、果汁、小零食帶在身上。",
+        tips: "米屋の飯切 / Trandor",
         mapQuery: "Hakata Station",
       },
       {
-        time: "10:00",
-        type: "food",
-        title: "PRESS BUTTER SAND (博多站)",
-        desc: "營業時間: 09:00–21:00。步行3分鐘。購買福岡限定、期間限定口味。",
-        tips: "位於博多站內。",
-        mapQuery: "PRESS BUTTER SAND Hakata Station",
-      },
-      {
-        time: "11:00",
+        time: "09:30",
         type: "spot",
-        title: "大濠公園",
-        desc: "交通：【地下鐵空港線(紅線) 博多 >> 大濠公園(5站)】(注意：博多出發直達，約10分鐘)。步行7分鐘。",
-        tips: "城市中的綠洲，適合散步，有星巴克。",
-        mapQuery: "Ohori Park",
+        title: "海洋世界海之中道",
+        desc: "JR 香椎線「海之中道」站。10:30 看大水槽、企鵝。",
+        tips: "這是 JR 路線，不是地鐵。",
+        mapQuery: "Marine World Uminonakamichi",
       },
       {
-        time: "13:30",
+        time: "11:30",
         type: "food",
-        title: "午餐：博多水炊鍋專門 橙 (Daidai)",
-        desc: "營業時間: 12:00–22:00。步行16分鐘前往。連續多年獲得米其林推薦，只賣水炊雞肉鍋，建議預約。",
-        tips: "注意營業時間，中午是否有開需確認。",
-        mapQuery: "Hakata Mizutaki Senmon Daidai",
+        title: "午餐：B1 Reilly 餐廳",
+        desc: "趁人少先吃。邊吃飯邊看海豚和鯊魚游過，寶寶會很愛。",
+        tips: "",
+        mapQuery: "Marine World Uminonakamichi",
       },
       {
-        time: "15:30",
-        type: "food",
-        title: "Jacques 大濠店",
-        desc: "營業時間: 10:00–16:00。步行10分鐘。福岡知名的法式甜點店。",
-        tips: "享受優雅的下午茶時光。",
-        mapQuery: "Jacques Ohori",
+        time: "13:00",
+        type: "spot",
+        title: "海豚/海獅表演",
+        desc: "表演結束後去戶外觸摸區、看海獺，或草地散步。",
+        tips: "表演時間依現場公告 (通常 11/13/15 點)。",
+        mapQuery: "Marine World Uminonakamichi",
       },
       {
-        time: "17:00",
-        type: "shop",
-        title: "天神地下街 & 周邊",
-        desc: "交通：【地下鐵空港線(紅線) 大濠公園 >> 天神(2站)】，步行7分鐘。",
-        tips: "點擊下方箭頭可展開詳細必逛清單與地圖。",
-        mapQuery: "Tenjin Underground Shopping Center",
-        alternatives: [
-          {
-            title: "RINGO (蘋果派)",
-            desc: "天神地下街店 09:00-21:00，必吃現烤卡士達蘋果派。",
-            type: "food",
-            mapQuery: "RINGO Tenjin Underground Shopping Center",
-          },
-          {
-            title: "藍瓶咖啡 (Blue Bottle)",
-            desc: "福岡天神店 08:00-20:00，位於警固神社內。",
-            type: "food",
-            mapQuery: "Blue Bottle Coffee Fukuoka Tenjin Cafe",
-          },
-          {
-            title: "BOUL'ANGE",
-            desc: "天神地下街店 08:30-20:00，推薦開心果捲捲酥、可頌麵包。",
-            type: "food",
-            mapQuery: "BOUL'ANGE Fukuoka",
-          },
-          {
-            title: "BIC Camera 2號店",
-            desc: "3C家電採購，品項齊全。",
-            type: "shop",
-            mapQuery: "Bic Camera Tenjin 2nd Store",
-          },
-          {
-            title: "福岡 PARCO",
-            desc: "就在天神站上方，有許多動漫周邊店。",
-            type: "shop",
-            mapQuery: "Fukuoka PARCO",
-          },
-        ],
-      },
-      {
-        time: "18:00",
-        type: "food",
-        title: "晚餐",
-        desc: "交通：【地下鐵空港線(紅線) 天神 >> 博多】 或 【地下鐵七隈線(綠線) 天神南 >> 博多】。",
-        tips: "回到博多車站周邊覓食。",
+        time: "16:00",
+        type: "transport",
+        title: "搭車返回博多",
+        desc: "避開 17:00 後下班人潮。",
+        tips: "",
         mapQuery: "Hakata Station",
       },
       {
-        time: "20:00",
-        type: "transport",
-        title: "回飯店休息",
-        desc: "結束今天的行程。",
-        tips: "",
-        mapQuery: "Richmond Hotel Hakata Ekimae",
+        time: "17:30",
+        type: "food",
+        title: "晚餐：葉隱烏龍麵",
+        desc: "必點：肉烏龍、蝦天婦羅烏龍、雞肉飯 (かしわめし)。",
+        tips: "17:00 開門人最少，建議早點去。",
+        mapQuery: "Hagakure Udon",
+        alternatives: [
+            { title: "華蓮 (AMU 9F)", type: "food", desc: "蒸籠料理，大量蔬菜適合寶寶", mapQuery: "Karen Hakata" }
+        ]
       },
     ],
   },
   {
     day: 5,
     date: "2/26 (四)",
-    location: "動植物園 & 返程",
+    location: "LaLaport & 賦歸",
+    reminder: "出關侯機前，記得幫寶寶換好尿布、裝好溫水，在候機室先讓寶寶吃點小點心。",
     activities: [
       {
-        time: "09:00",
-        type: "hotel",
-        title: "飯店出發",
-        desc: "準備出發。",
-        tips: "",
-        mapQuery: "Richmond Hotel Hakata Ekimae",
-      },
-      {
-        time: "09:10",
+        time: "08:00",
         type: "food",
-        title: "早餐：客美多咖啡 博多站東店",
-        desc: "營業時間: 07:00-22:00。步行4分鐘。名古屋知名的早餐咖啡店，點飲料送吐司。",
-        tips: "適合悠閒的早餐時光。",
-        mapQuery: "Komeda's Coffee Hakata Station East",
+        title: "早餐：彌生軒 (筑紫口店)",
+        desc: "06:30 開門。推薦烤鮭魚定食、厚蛋燒。",
+        tips: "出門前記得檢查隨身行李。",
+        mapQuery: "Yayoiken Hakata Chikushiguchi",
       },
       {
-        time: "10:30",
-        type: "spot",
-        title: "福岡市動植物園",
-        desc: "營業時間: 09:00–16:30。交通：步行4分鐘至博多站 >> 【地下鐵七隈線(綠線) 博多 >> 櫻坂(4站)】 >> 步行3分鐘。",
-        tips: "動植物園很大，適合慢慢逛。",
-        mapQuery: "Fukuoka City Zoo and Botanical Garden",
-        alternatives: [
-          {
-            title: "teamLab 森林 福岡 (雨備)",
-            desc: "營業時間: 11:00-19:00。交通：【地下鐵空港線(紅線) 博多 >> 唐人町(6站)】>> 步行15分鐘。位於 BOSS E・ZO FUKUOKA。",
-            type: "spot",
-            mapQuery: "teamLab Forest Fukuoka",
-          },
-        ],
-      },
-      {
-        time: "14:00",
-        type: "shop",
-        title: "博多車站晃晃",
-        desc: "回到博多車站，做最後的補貨或吃午餐。",
-        tips: "",
-        mapQuery: "Hakata Station",
-      },
-      {
-        time: "18:00",
+        time: "09:30",
         type: "transport",
-        title: "前往福岡機場",
-        desc: "準備搭機返台。",
+        title: "退房 & 前往 LaLaport",
+        desc: "搭計程車直達。大行李寄放 1 樓置物櫃或人工寄存。",
+        tips: "LaLaport Fukuoka",
+        mapQuery: "LaLaport Fukuoka",
+      },
+      {
+        time: "10:00",
+        type: "shop",
+        title: "LaLaport 最後衝刺",
+        desc: "鋼彈拍照、阿卡將補貨、藥妝。",
         tips: "",
-        mapQuery: "Fukuoka Airport International Terminal",
+        mapQuery: "LaLaport Fukuoka",
+      },
+      {
+        time: "12:00",
+        type: "food",
+        title: "午餐：3F 美食街",
+        desc: "知青豬排、清陽軒拉麵、Umaya 定食。",
+        tips: "美食街座位多，適合小孩。",
+        mapQuery: "LaLaport Fukuoka",
+      },
+      {
+        time: "13:30",
+        type: "spot",
+        title: "福岡玩具美術館",
+        desc: "10:00-18:00。木育廣場專為 0-2 歲設計，安全好玩。",
+        tips: "備案：4F Moff animal cafe 或 頂樓田徑場。",
+        mapQuery: "Fukuoka Toy Museum",
         alternatives: [
-          {
-            title: "三日月屋",
-            desc: "必買天然酵母可頌。",
-            type: "shop",
-            mapQuery: "Mikadukiya Fukuoka Airport",
-          },
-          {
-            title: "AMANBERRY",
-            desc: "草莓奶油夾心脆餅。",
-            type: "shop",
-            mapQuery: "AMANBERRY Fukuoka Airport",
-          },
-          {
-            title: "やまや (YAMAYA)",
-            desc: "軟管明太子醬(主打天然)。",
-            type: "shop",
-            mapQuery: "Yamaya Fukuoka Airport",
-          },
-          {
-            title: "ふくや (Fukuya)",
-            desc: "軟管明太子醬(口味較多)。",
-            type: "shop",
-            mapQuery: "Fukuya Fukuoka Airport",
-          },
-          {
-            title: "THE MATCHA TOKYO",
-            desc: "喝杯抹茶再上飛機。",
-            type: "food",
-            mapQuery: "THE MATCHA TOKYO Fukuoka Airport",
-          },
-        ],
+            { title: "Moff animal cafe", type: "spot", desc: "觸摸小動物", mapQuery: "Moff animal cafe LaLaport Fukuoka" }
+        ]
+      },
+      {
+        time: "15:30",
+        type: "shop",
+        title: "Lopia 超市 & 離開",
+        desc: "最後逛逛。16:30 領行李搭計程車去機場。",
+        tips: "",
+        mapQuery: "LaLaport Fukuoka",
+      },
+      {
+        time: "15:30 (備案)",
+        type: "spot",
+        title: "【備案】福岡機場國內線航廈",
+        desc: "比國際線更好玩！\n2F 甜點伴手禮區：國內線限定年輪蛋糕、明太子。\n3F 拉麵滑道：九州代表性拉麵店聚集。\n4F 展望台：近距離看飛機起降，寶寶最愛。\n------------\n18:00 搭接駁車往國際線 (約10-15分)。",
+        tips: "國內線1F/2F有大量寄物櫃。1F有手荷物預かり所(人工寄存)可暫存行李。",
+        mapQuery: "Fukuoka Airport Domestic Terminal",
+      },
+      {
+        time: "17:30",
+        type: "shop",
+        title: "機場免稅店掃貨",
+        desc: "黃金 2 小時！行李已托運，推寶寶輕鬆逛。",
+        tips: "備案：國內線航廈 (拉麵滑道、展望台看飛機)。",
+        mapQuery: "Fukuoka Airport International Terminal",
       },
       {
         time: "20:55",
         type: "transport",
-        title: "搭機返台",
-        desc: "BR101 20:55 起飛 -> 22:40 抵達桃園機場。",
+        title: "搭機回台",
+        desc: "BR101。記得先幫寶寶換尿布。",
         tips: "平安回家！",
         mapQuery: "Fukuoka Airport",
       },
@@ -2103,7 +2007,7 @@ const ActivityItem = ({
           {item.time}
         </span>
       </div>
-      <p className="text-sm text-slate-600 mb-3 leading-relaxed">{item.desc}</p>
+      <p className="text-sm text-slate-600 mb-3 leading-relaxed whitespace-pre-wrap">{item.desc}</p>
 
       {item.tips && (
         <div className="bg-yellow-50/50 p-3 rounded-lg border border-yellow-100 flex gap-2 mb-3">
@@ -2189,13 +2093,15 @@ const ItineraryView = ({ selectedDay, setSelectedDay }: any) => {
 
   return (
     <div className="pb-24 animate-fade-in">
+      {/* Sticky Date Selector & Header */}
       <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-slate-100 shadow-sm">
-        <div className="flex px-2 py-3 gap-2">
+        {/* Date Tabs */}
+        <div className="flex px-2 py-3 gap-2 overflow-x-auto no-scrollbar">
           {ITINERARY.map((d) => (
             <button
               key={d.day}
               onClick={() => setSelectedDay(d.day)}
-              className={`flex-1 flex flex-col items-center justify-center py-2 rounded-lg transition-all ${
+              className={`flex-shrink-0 flex flex-col items-center justify-center px-4 py-2 rounded-lg transition-all min-w-[80px] ${
                 selectedDay === d.day
                   ? "bg-slate-800 text-white shadow-md scale-105"
                   : "bg-slate-50 text-slate-500 hover:bg-slate-100"
@@ -2211,21 +2117,47 @@ const ItineraryView = ({ selectedDay, setSelectedDay }: any) => {
           ))}
         </div>
 
-        <div className="px-4 pb-4">
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 flex items-center justify-between border border-blue-100">
-            <div>
-              <h2 className="text-lg font-bold text-slate-800">
-                {dayData.location}
-              </h2>
-              <p className="text-sm text-slate-500">{dayData.date}</p>
+        {/* Compact Split Header Card */}
+        <div className="px-4 pb-2">
+          <div className="flex bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden min-h-[88px]">
+            {/* Left Side: Location & Date (35%) */}
+            <div className="w-[35%] bg-indigo-50 p-3 flex flex-col justify-center border-r border-indigo-100 shrink-0">
+               <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">
+                  Day {dayData.day}
+               </span>
+               <h2 className="text-sm font-bold text-slate-800 leading-tight my-1 line-clamp-2">
+                  {dayData.location}
+               </h2>
+               <p className="text-[10px] text-slate-500 font-mono">
+                  {dayData.date}
+               </p>
             </div>
-            {/* Weather removed from header as it's in Tools now, or we can add back if desired */}
+
+            {/* Right Side: Reminder (Rest) */}
+            <div className={`flex-1 p-3 flex flex-col justify-center ${dayData.reminder ? 'bg-amber-50/50' : 'bg-white'}`}>
+               {dayData.reminder ? (
+                 <div className="flex gap-2 h-full">
+                   <Bell size={16} className="text-amber-500 shrink-0 mt-0.5" />
+                   <div className="min-w-0">
+                      <p className="text-[10px] font-bold text-amber-700 mb-0.5">當日提醒</p>
+                      <p className="text-xs text-slate-700 leading-snug">
+                        {dayData.reminder}
+                      </p>
+                   </div>
+                 </div>
+               ) : (
+                 <div className="flex items-center justify-center text-slate-300 gap-1 h-full">
+                    <Sun size={16} />
+                    <span className="text-xs">Have a nice trip!</span>
+                 </div>
+               )}
+            </div>
           </div>
         </div>
       </div>
 
       {/* 正常顯示模式 (單日) */}
-      <div className="px-4 py-2 space-y-6">
+      <div className="px-4 py-4 space-y-6">
         {dayData.activities.map((item, idx) => (
           <ActivityItem
             key={idx}
