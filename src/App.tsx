@@ -2502,9 +2502,9 @@ const ToolsView = () => {
           {/* AMU PLAZA */}
           <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
             <h3 className="font-bold text-slate-800 text-lg mb-2 flex items-center justify-between">
-              A. 【AMU PLAZA】
-              <span className="text-[10px] font-normal bg-slate-100 text-slate-500 px-2 py-1 rounded">
-                退稅：2F/4F 櫃台 (需收1.55%手續費)
+              A. 【AMU PLAZA】              
+			  <span className="text-[10px] font-normal bg-orange-100 text-orange-700 px-2 py-1 rounded w-fit">
+                TIPS: 退稅：2F/4F 櫃台 (需收1.55%手續費)
               </span>
             </h3>
             
@@ -2545,9 +2545,9 @@ const ToolsView = () => {
           {/* Yodobashi */}
           <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
             <h3 className="font-bold text-slate-800 text-lg mb-2 flex items-center justify-between">
-              B. 【Yodobashi】
-              <span className="text-[10px] font-normal bg-slate-100 text-slate-500 px-2 py-1 rounded">
-                退稅：結帳出示護照 (直扣10%)
+              B. 【Yodobashi】              
+			  <span className="text-[10px] font-normal bg-orange-100 text-orange-700 px-2 py-1 rounded w-fit">
+                TIPS: 退稅：結帳出示護照 (直接扣10%)
               </span>
             </h3>
             <div className="space-y-3">
@@ -2573,7 +2573,7 @@ const ToolsView = () => {
             <h3 className="font-bold text-slate-800 text-lg mb-2 flex flex-col gap-1">
               <span>C. 【博多阪急】</span>
               <span className="text-[10px] font-normal bg-orange-100 text-orange-700 px-2 py-1 rounded w-fit">
-                TIPS: 先去 1F 服務台/M3F 免稅櫃台領「5% 優惠券」+ 10%退稅
+                TIPS: 先去 1F 服務台/M3F 免稅櫃台領「5% 優惠券」+滿額10%退稅
               </span>
             </h3>
             <div className="space-y-3">
@@ -2634,9 +2634,12 @@ const ToolsView = () => {
       <CollapsibleSection title="草莓購買指南" icon={ShoppingBag} defaultOpen={false}>
          <div className="p-4 space-y-3">
            {[
-             { name: "栃木縣 とちあいか (Tochiaika)", desc: "價格品質範圍大，但只要「整顆紅透、接近蒂頭處沒有白」就保證好吃。", color: "border-red-100 bg-red-50" },
-             { name: "埼玉縣 あまりん (Amarin)", desc: "貴是缺點，但連續獲金獎，幾乎不踩雷。", color: "border-pink-100 bg-pink-50" },
-             { name: "福岡草莓 あまおう (Amaou)", desc: "福岡代表！非常大顆且甜。", color: "border-rose-100 bg-rose-50" },
+             { name: "1.福岡 甘王Amaou(あまおう)", desc: "【酸甜平衡之王】 濃郁的甜中帶微酸，果肉厚實、果汁極多。認明 「紅、圓、大、甜」，挑選整顆深紅、蒂頭下無白的。如果蒂頭下方的果肉出現細微的白色橫向裂紋，日本稱為「身割れ」，果肉糖分過高把皮撐裂了，這盒絕對是極品。記得挑選規格標示為 「DX (Deluxe)」 或 「G (Grande)」 的。", color: "border-red-100 bg-red-50" },
+			 { name: "2.埼玉 Amarin (あまりん)", desc: "【極致甜度】 幾乎沒有酸味，甜度極高且穩定，口感紮實。價格最高，但連續獲得金獎。", color: "border-pink-100 bg-pink-50" },
+			 { name: "3.奈良 古都華 (ことか)", desc: "【濃郁震撼】 甜度與酸度都非常強烈，味道極濃。適合重口味老饕，香氣越重越新鮮。", color: "border-rose-100 bg-rose-50" },
+			 { name: "4.佐賀 Ichigosan (いちごさん)", desc: "【優雅清甜】 口感清爽順口，皮薄且果肉非常柔軟最適合小孩。", color: "border-red-100 bg-red-50" },
+			 { name: "5.熊本/佐賀 淡雪 (あわゆき)", desc: "【溫和無酸】 看起來像沒熟，其實甜度適中且完全不酸。粉紅色外觀，香氣帶有一點淡淡奶香。", color: "border-pink-100 bg-pink-50" },
+			 { name: "6.栃木 Tochiaika (とちあいか)", desc: "【高CP值】 酸度低、甜味明顯。價格平實且品質穩定，超市採買首選。「整顆紅透、接近蒂頭處沒有白」就保證好吃", color: "border-rose-100 bg-rose-50" },
            ].map((berry, i) => (
              <div key={i} className={`p-3 rounded-xl border ${berry.color} flex gap-3 items-start`}>
                <div className="bg-white/50 w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs font-bold text-red-400">
