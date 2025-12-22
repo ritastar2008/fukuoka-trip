@@ -410,12 +410,12 @@ const ITINERARY = [
     reminder: "動物園在山上，體感會比博多車站冷。請務必帶上推車防風罩和寶寶的小毛毯",
     activities: [
       {
-        time: "09:30",
+        time: "09:00",
         type: "food",
-        title: "早餐：飯糰 & 麵包",
-        desc: "「米屋の飯切」或「糸島おむすび ふちがみ」買飯糰，「Trandor」買小餐包給寶寶。",
-        tips: "博多車站內購買。",
-        mapQuery: "Hakata Station",
+        title: "早餐：Dacomecca 麵包店",
+        desc: "營業時間: 07:00–19:00。步行前往 (約3-5分鐘)。福岡超人氣麵包店，裝潢像廢墟風，麵包非常精緻。",
+        tips: "建議提早排隊，人潮眾多。",
+        mapQuery: "Dacomecca",
       },
       {
         time: "09:30",
@@ -441,6 +441,14 @@ const ITINERARY = [
                 desc: "從博多車站搭乘 58號公車 直達「動物園前」站（車程約 20 分鐘）。"
             }
         ]
+      }, 
+	  {
+        time: "09:30(備案)",
+        type: "spot",
+        title: "【備案】teamLab Forest",
+        desc: "搭乘 西鐵巴士 (Nishitetsu Bus)。從博多站前巴士站（A月台）搭乘前往「PayPay Dome」或「福岡市博物館」方向的巴士，在 「PayPayドーム (PayPay Dome)」 下車。\n 搭乘地鐵【地下鐵空港線(紅線) 博多 >> 唐人町(6站)】>> 步行15分鐘。",
+        tips: "隨身攜帶背巾，因為部分展區地面有起伏（如山丘地形），抱著孩子會比較安全\n穿著褲裝、小孩穿防滑鞋。",
+        mapQuery: "teamLab Forest Fukuoka",
       },
       {
         time: "10:00",
@@ -450,6 +458,7 @@ const ITINERARY = [
         tips: "山上較冷，請帶推車防風罩和毛毯。風大可去室內的「動物科學館」。",
         mapQuery: "Fukuoka City Zoo",
       },
+	 
       {
         time: "12:30",
         type: "food",
@@ -458,6 +467,7 @@ const ITINERARY = [
         tips: "園內吃最方便，減少移動負擔。",
         mapQuery: "Fukuoka City Zoo",
       },
+	  
       {
         time: "13:30",
         type: "spot",
@@ -509,31 +519,47 @@ const ITINERARY = [
       {
         time: "10:00",
         type: "spot",
-        title: "福岡麵包超人博物館",
-        desc: "營業時間: 10:00-17:00。交通：【地下鐵空港線(紅線) 博多 >> 中洲川端(2站)】，步行7分鐘。位於 Riverain Mall 5F/6F。",
+        title: "福岡麵包超人博物館(Riverain Mall 5-6F)",
+        desc: "營業時間: 10:00-17:00。交通：【地下鐵空港線(紅線) 博多 >> 中洲川端(2站)】，步行7分鐘。",
         tips: "剛開館人最少，先衝最受歡迎的「球池」或「沙坑」，並確認早上的表演秀時間（通常 11:00 左右會有一場）。",
         mapQuery: "Fukuoka Anpanman Children's Museum",
       },
       {
         time: "13:30",
         type: "food",
-        title: "午餐：烤肉 石原牛",
+        title: "午餐：焼肉 石原牛",
         desc: "步行2分鐘。A5和牛午間套餐 CP 值高。",
-        tips: "平日13:00後上班族午休結束，環境較安靜放鬆。",
+        tips: "平日13:00後上班族午休結束，環境較安靜放鬆。午餐營業時間：11:00 – 15:00，最後加點時間 14:30。 	",
         mapQuery: "Hakata Yakiniku Ishiharanogyu",
       },
-      {
+	  {
         time: "15:00",
         type: "spot",
-        title: "川端通商店街 (午睡)",
+        title: "Riverain Mall 採購(午睡)",
+        desc: "2F[Small quantity by mammy baby(嬰兒選物)、HAKATA JAPAN(博多織品)] \n 1F [tokineri、Sghr Sugahara]:廚房用品/好物 \n B1F [BorneLund(嬰兒玩具)、IKEUCHI ORGANIC(今治毛巾-有機)] \n B2F [Seria、茅乃舍、]:",
+        tips: "寶寶午睡，爸媽悠閒採購。",
+        mapQuery: "",
+      },
+      {
+        time: "16:30",
+        type: "spot",
+        title: "川端通商店街、櫛田神社",
         desc: "可去附近日本人愛去的PAN DEL SO買麵包喝咖啡。營業時間: 11:00-18:00",
         tips: "寶寶午睡，爸媽悠閒逛櫛田神社、麵包店喝咖啡。",
         mapQuery: "Cafe Pan del Sol",
       },
       {
-        time: "16:00",
+        time: "18:00",
+        type: "food",
+        title: "晚餐：Obon de Gohan",
+        desc: "KITTE 博多店。均衡營養日式定食，環境親子友善。",
+        tips: "很多軟糯豆腐和炊飯，適合 1.5 歲寶寶。",
+        mapQuery: "Obon de Gohan KITTE Hakata"
+      },
+      {
+        time: "16:30(備案)",
         type: "shop",
-        title: "天神地下街",
+        title: "【備案】天神地下街",
         desc: "交通:【地下鐵空港線(紅線) 中洲川端站 >> 天神站(1站)】",
         tips: "建議先逛 「西側」（靠近地下鐵入口），必逛推薦： * Salut! / 3COINS / Natural Kitchen：精緻的日式百圓雜貨。可在歐風休息區吃點心。",
         mapQuery: "Tenjin Underground Shopping Center",
@@ -543,14 +569,6 @@ const ITINERARY = [
             { title: "BAKE Cheese Tart（半熟起司塔）", type: "food", desc: "09:00-21:00。"},
             { title: "Blue Bottle", type: "food", desc: "警固神社內", mapQuery: "Blue Bottle Coffee Fukuoka Tenjin" }
         ]
-      },
-      {
-        time: "18:00",
-        type: "food",
-        title: "晚餐：Obon de Gohan",
-        desc: "KITTE 博多店。均衡營養日式定食，環境親子友善。",
-        tips: "很多軟糯豆腐和炊飯，適合 1.5 歲寶寶。",
-        mapQuery: "Obon de Gohan KITTE Hakata"
       },
       {
         time: "18:00(備案)",
@@ -565,14 +583,15 @@ const ITINERARY = [
   {
     day: 4,
     date: "2/25 (三)",
-    location: "海之中道",
+    location: "海洋世界海之中道",
     reminder: "建議在博多車站先買好寶寶的水、果汁或小零食帶在身上。",
     activities: [
       {
         time: "08:30",
         type: "food",
-        title: "早餐：飯糰 vs 麵包",
-        desc: "米屋の飯切 / Trandor",
+        title: "早餐：飯糰 & 麵包",
+        desc: "「米屋の飯切」或「糸島おむすび ふちがみ」買飯糰，「Trandor」買小餐包給寶寶。",
+        tips: "博多車站內購買。",
         mapQuery: "Hakata Station",
       },
       {
@@ -580,13 +599,13 @@ const ITINERARY = [
         type: "spot",
         title: "海洋世界海之中道",
         desc: "營業時間: 09:30-17:30。交通：【JR鹿兒島本線(紅線) 博多 >> 香椎(4站)】轉乘 >> 【JR香椎線(藍線) 香椎 >> 海之中道(4站)】。",
-        tips: "這是 JR 路線，不是地鐵。",
+        tips: "入口記得拍表演時間!",
         mapQuery: "Marine World Uminonakamichi",
       },
       {
         time: "10:30",
         type: "spot",
-        title: "看 1 樓的大水槽、企鵝",
+        title: "看1樓的大水槽、企鵝島 (Penguin Island)、海豹餵食觀察 (Seal Feedback)",
         desc: "",
         tips: "",
         mapQuery: "Marine World Uminonakamichi",
@@ -622,9 +641,6 @@ const ITINERARY = [
         desc: "必點：肉烏龍麵 (肉うどん)、蝦天婦羅烏龍麵 (えびかき揚げうどん)、雞肉飯 (かしわめし)。",
         tips: "17:00 開門人最少，建議早點去。tablog百大名店。",
         mapQuery: "Hagakure Udon",
-        alternatives: [
-            { title: "華蓮 (AMU 9F)", type: "food", desc: "晚餐預算約 $7,000$ 日圓以上/人）蒸籠料理，大量蔬菜適合寶寶", mapQuery: "Karen Hakata" }
-        ]
       },
     ],
   },
