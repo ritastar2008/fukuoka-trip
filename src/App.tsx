@@ -350,7 +350,7 @@ const ITINERARY = [
     day: 1,
     date: "2/22 (日)",
     location: "入境 & 博多車站",
-    reminder: "一定要先買好明天中餐、早餐、飲料與零食",
+    reminder: "一定要先買好明天中餐、早餐、飲料與零食。若預報明天下雨，至Klook或KKday買teamLab的票",
     activities: [
       {
         time: "12:15",
@@ -536,7 +536,7 @@ const ITINERARY = [
         time: "15:00",
         type: "spot",
         title: "Riverain Mall 採購(午睡)",
-        desc: "2F[Small quantity by mammy baby(嬰兒選物)、HAKATA JAPAN(博多織品)] \n 1F [tokineri、Sghr Sugahara]:廚房用品/好物 \n B1F [BorneLund(嬰兒玩具)、IKEUCHI ORGANIC(今治毛巾-有機)] \n B2F [Seria、茅乃舍、]:",
+        desc: "2F[Small quantity by mammy baby(嬰兒選物)、HAKATA JAPAN(博多織品)] \n 1F [tokineri、Sghr Sugahara]:廚房用品/好物 \n B1F [BorneLund(嬰兒玩具)、IKEUCHI ORGANIC(今治毛巾-有機)] \n B2F [Seria、茅乃舍]:",
         tips: "寶寶午睡，爸媽悠閒採購。",
         mapQuery: "",
       },
