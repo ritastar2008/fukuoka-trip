@@ -2634,12 +2634,12 @@ const ToolsView = () => {
       <CollapsibleSection title="草莓購買指南" icon={ShoppingBag} defaultOpen={false}>
          <div className="p-4 space-y-3">
            {[
-             { name: "1.福岡 甘王Amaou(あまおう)", desc: "【酸甜平衡之王】 濃郁的甜中帶微酸，果肉厚實、果汁極多。認明 「紅、圓、大、甜」，挑選整顆深紅、蒂頭下無白的。如果蒂頭下方的果肉出現細微的白色橫向裂紋，日本稱為「身割れ」，果肉糖分過高把皮撐裂了，這盒絕對是極品。記得挑選規格標示為 「DX (Deluxe)」 或 「G (Grande)」 的。", color: "border-red-100 bg-red-50" },
-			 { name: "2.埼玉 Amarin (あまりん)", desc: "【極致甜度】 幾乎沒有酸味，甜度極高且穩定，口感紮實。價格最高，但連續獲得金獎。", color: "border-pink-100 bg-pink-50" },
-			 { name: "3.奈良 古都華 (ことか)", desc: "【濃郁震撼】 甜度與酸度都非常強烈，味道極濃。適合重口味老饕，香氣越重越新鮮。", color: "border-rose-100 bg-rose-50" },
-			 { name: "4.佐賀 Ichigosan (いちごさん)", desc: "【優雅清甜】 口感清爽順口，皮薄且果肉非常柔軟最適合小孩。", color: "border-red-100 bg-red-50" },
-			 { name: "5.熊本/佐賀 淡雪 (あわゆき)", desc: "【溫和無酸】 看起來像沒熟，其實甜度適中且完全不酸。粉紅色外觀，香氣帶有一點淡淡奶香。", color: "border-pink-100 bg-pink-50" },
-			 { name: "6.栃木 Tochiaika (とちあいか)", desc: "【高CP值】 酸度低、甜味明顯。價格平實且品質穩定，超市採買首選。「整顆紅透、接近蒂頭處沒有白」就保證好吃", color: "border-rose-100 bg-rose-50" },
+             { name: "1.福岡 甘王Amaou(あまおう)", desc: "【酸甜平衡之王】 濃郁的甜中帶微酸，果肉厚實、果汁極多。認明 「紅、圓、大、甜」，挑選整顆深紅、蒂頭下無白的。如果蒂頭下方的果肉出現細微的白色橫向裂紋，日本稱為「身割れ」，果肉糖分過高把皮撐裂了，這盒絕對是極品。記得挑選規格標示為 「DX (Deluxe)」 或 「G (Grande)」 的。(超市)", color: "border-red-100 bg-red-50" },
+			 { name: "2.埼玉 Amarin (あまりん)", desc: "【極致甜度】 幾乎沒有酸味，甜度極高且穩定，口感紮實。價格最高，但連續獲得金獎。(博多阪急 B1)", color: "border-pink-100 bg-pink-50" },
+			 { name: "3.奈良 古都華 (ことか)", desc: "【濃郁震撼】 甜度與酸度都非常強烈，味道極濃。適合重口味老饕，香氣越重越新鮮。(博多阪急 B1)", color: "border-red-100 bg-red-50" },
+			 { name: "4.佐賀 Ichigosan (いちごさん)", desc: "【優雅清甜】 口感清爽順口，皮薄且果肉非常柔軟最適合小孩。", color: "border-pink-100 bg-pink-50" },
+			 { name: "5.熊本/佐賀 淡雪 (あわゆき)", desc: "【溫和無酸】 看起來像沒熟，其實甜度適中且完全不酸。粉紅色外觀，香氣帶有一點淡淡奶香。", color: "border-red-100 bg-red-50" },
+			 { name: "6.栃木 Tochiaika (とちあいか)", desc: "【高CP值】 酸度低、甜味明顯。價格平實且品質穩定，超市採買首選。「整顆紅透、接近蒂頭處沒有白」就保證好吃", color: "border-pink-100 bg-pink-50" },
            ].map((berry, i) => (
              <div key={i} className={`p-3 rounded-xl border ${berry.color} flex gap-3 items-start`}>
                <div className="bg-white/50 w-6 h-6 rounded-full flex items-center justify-center shrink-0 text-xs font-bold text-red-400">
