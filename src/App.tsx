@@ -536,7 +536,7 @@ const ITINERARY = [
         time: "15:00",
         type: "spot",
         title: "Riverain Mall 採購(午睡)",
-        desc: "2F[Small quantity by mammy baby(嬰兒選物)、HAKATA JAPAN(博多織品)] \n 1F [tokineri、Sghr Sugahara]:廚房用品/好物 \n B1F [BorneLund(嬰兒玩具)、IKEUCHI ORGANIC(今治毛巾-有機)] \n B2F [Seria、茅乃舍]:",
+        desc: "2F[Small quantity by mammy baby(嬰兒選物)、HAKATA JAPAN(博多織品)] \n 1F [tokineri、Sghr Sugahara]:廚房用品/好物 \n B1F [BorneLund(嬰兒玩具)、IKEUCHI ORGANIC(今治毛巾-有機)] \n B2F [Seria、茅乃舍]",
         tips: "寶寶午睡，爸媽悠閒採購。",
         mapQuery: "",
       },
@@ -731,7 +731,7 @@ const ITINERARY = [
         type: "shop",
         title: "機場免稅店掃貨",
         desc: "黃金 2 小時！行李已托運，推寶寶輕鬆逛。",
-        tips: "備案：國內線航廈 (拉麵滑道、展望台看飛機)。",
+        tips: "",
         mapQuery: "Fukuoka Airport International Terminal",
       },
       {
@@ -2355,9 +2355,6 @@ const ToolsView = () => {
           {/* Day 1 Special */}
           <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
             <h3 className="font-bold text-orange-800 mb-2 flex items-center gap-2">
-              <span className="bg-orange-200 text-orange-800 px-2 py-0.5 rounded text-xs">
-                Day 1 首選
-              </span>{" "}
               前往 LaLaport
             </h3>
             <ul className="text-sm text-orange-900 space-y-2 list-disc pl-4">
@@ -2500,7 +2497,7 @@ const ToolsView = () => {
       </CollapsibleSection>
 
       {/* Kitchenware Buying Guide */}
-      <CollapsibleSection title="廚房用品購買指南" icon={Utensils} defaultOpen={false}>
+      <CollapsibleSection title="購物指南" icon={Utensils} defaultOpen={false}>
         <div className="p-4 space-y-4">
           {/* AMU PLAZA */}
           <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
@@ -2553,12 +2550,81 @@ const ToolsView = () => {
                 退稅：結帳出示護照 (直扣10%)
               </span>
             </h3>
-            <div>
-               <h4 className="font-bold text-slate-700 text-sm mb-1 bg-slate-50 inline-block px-2 rounded">3F 家電百貨區</h4>
-               <ul className="list-disc list-inside text-xs text-slate-500 pl-1 space-y-0.5">
-                 <li>燕三條 (Tsubame-Sanjo)</li>
-                 <li>富士琺瑯</li>
-               </ul>
+            <div className="space-y-3">
+               <div>
+                 <h4 className="font-bold text-slate-700 text-sm mb-1 bg-slate-50 inline-block px-2 rounded">2F 玩具/轉蛋</h4>
+                 <ul className="list-disc list-inside text-xs text-slate-500 pl-1 space-y-0.5">
+                   <li>各種日系玩具、樂高</li>
+                   <li>轉蛋機專區</li>
+                 </ul>
+               </div>
+               <div>
+                 <h4 className="font-bold text-slate-700 text-sm mb-1 bg-slate-50 inline-block px-2 rounded">3F 家電百貨區</h4>
+                 <ul className="list-disc list-inside text-xs text-slate-500 pl-1 space-y-0.5">
+                   <li>燕三條 (Tsubame-Sanjo)</li>
+                   <li>富士琺瑯</li>
+                 </ul>
+               </div>
+            </div>
+          </div>
+
+          {/* Hakata Hankyu */}
+          <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
+            <h3 className="font-bold text-slate-800 text-lg mb-2 flex flex-col gap-1">
+              <span>C. 【博多阪急】</span>
+              <span className="text-[10px] font-normal bg-orange-100 text-orange-700 px-2 py-1 rounded w-fit">
+                TIPS: 先去 1F 服務台/M3F 免稅櫃台領「5% 優惠券」+ 10%退稅
+              </span>
+            </h3>
+            <div className="space-y-3">
+              {[
+                { floor: "B1F", title: "北野超市 (KITANO ACE)", desc: "調味料天堂、茅乃舍 (Kayanoya)、福岡所有名產" },
+                { floor: "7F", title: "Miki House、10mois", desc: "雲朵餐盤、幼兒寢具" }
+              ].map((floor, i) => (
+                <div key={i}>
+                  <span className="font-bold text-slate-700 text-sm bg-slate-50 px-2 rounded mr-2">{floor.floor}</span>
+                  <span className="font-bold text-slate-700 text-xs">{floor.title}</span>
+                  <p className="text-xs text-slate-500 mt-0.5 pl-2 border-l-2 border-slate-100">{floor.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Riverain Mall */}
+          <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
+            <h3 className="font-bold text-slate-800 text-lg mb-2">D. 【Riverain Mall (中洲川端)】</h3>
+            <div className="space-y-2">
+              {[
+                { floor: "B2F", content: "Seria、茅乃舍" },
+                { floor: "B1F", content: "BorneLund(嬰兒玩具)、IKEUCHI ORGANIC(今治毛巾-有機)" },
+                { floor: "1F", content: "tokineri(廚房用品)、Sghr Sugahara" },
+                { floor: "2F", content: "Small quantity by mammy baby(嬰兒選物)、HAKATA JAPAN(博多織品)" }
+              ].map((item, i) => (
+                <div key={i} className="text-xs text-slate-600">
+                  <span className="font-bold bg-slate-50 px-1.5 rounded mr-1 text-slate-700">{item.floor}</span>
+                  {item.content}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* LaLaport */}
+          <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
+            <h3 className="font-bold text-slate-800 text-lg mb-2">E. 【LaLaport】</h3>
+            <div className="space-y-3">
+              {[
+                { floor: "1F", title: "212 Kitchen Store", desc: "專業廚房用品選物店。" },
+                { floor: "3F", title: "阿卡將本舖、3COINS + plus、petit main", desc: "母嬰用品、平價雜貨、童裝。" },
+                { floor: "5F", title: "玩具反斗城", desc: "規模巨大，適合買大型玩具。" }
+              ].map((item, i) => (
+                <div key={i}>
+                  <div className="flex items-center gap-2 mb-0.5">
+                     <span className="font-bold text-slate-700 text-sm bg-slate-50 px-2 rounded">{item.floor}</span>
+                     <span className="font-bold text-slate-700 text-xs">{item.title}</span>
+                  </div>
+                  <p className="text-xs text-slate-500 pl-2 border-l-2 border-slate-100">{item.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
