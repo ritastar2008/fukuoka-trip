@@ -2501,7 +2501,7 @@ const ToolsView = () => {
         <div className="p-4 space-y-4">
           {/* AMU PLAZA */}
           <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
-            <h3 className="font-bold text-slate-800 text-lg mb-2 flex items-center justify-between">
+            <h3 className="font-bold text-slate-800 text-lg mb-2 flex flex-col gap-1">
               A. 【AMU PLAZA】              
 			  <span className="text-[10px] font-normal bg-orange-100 text-orange-700 px-2 py-1 rounded w-fit">
                 TIPS: 退稅：2F/4F 櫃台 (需收1.55%手續費)
@@ -2544,7 +2544,7 @@ const ToolsView = () => {
 
           {/* Yodobashi */}
           <div className="bg-white rounded-xl border border-slate-100 p-4 shadow-sm">
-            <h3 className="font-bold text-slate-800 text-lg mb-2 flex items-center justify-between">
+            <h3 className="font-bold text-slate-800 text-lg mb-2 flex flex-col gap-1">
               B. 【Yodobashi】              
 			  <span className="text-[10px] font-normal bg-orange-100 text-orange-700 px-2 py-1 rounded w-fit">
                 TIPS: 退稅：結帳出示護照 (直接扣10%)
